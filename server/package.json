@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "Alhadji Oumate",
   "license": "ISC",
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.15.0",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
@@ -23,12 +23,14 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.18.0",
     "mongoose": "^8.17.2",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "zod": "^4.0.17"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.3.0",
     "nodemon": "^3.1.10",
     "tsx": "^4.20.4",

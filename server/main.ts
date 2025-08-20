@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { error } from "console";
-
 
 await mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/blog-posts")
 .then(() => {
