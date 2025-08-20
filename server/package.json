@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alhadji Oumate",
   "license": "ISC",
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
