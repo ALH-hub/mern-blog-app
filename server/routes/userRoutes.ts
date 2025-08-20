@@ -6,6 +6,7 @@ import {
   getUser,
   updateUser,
   deleteUser,
+  getAllUsers,
 } from '../controllers/userController';
 import { validateSchema, validateParams } from '../middleware/validation';
 import { userCreateSchema, userUpdateSchema } from '../schemas/validation';
@@ -20,6 +21,9 @@ const idParamSchema = z.object({
 
 // Create user route with validation
 router.post('/', validateSchema(userCreateSchema), createUser);
+
+// Get all users route
+router.get('/', getAllUsers);
 
 // Get user route with parameter validation
 router.get('/:id', validateParams(idParamSchema), getUser);

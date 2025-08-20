@@ -13,6 +13,8 @@ export const validateSchema = (schema: z.ZodSchema) => {
       // Replace req.body with validated and transformed data
       req.body = validatedData;
 
+      console.log(validatedData);
+
       next();
     } catch (error) {
       if (error instanceof ZodError) {

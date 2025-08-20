@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
       message: 'Invalid email format',
     },
   },
-  password: { type: String, required: true, minlength: 6 },
+  password: { type: String, required: true},
   posts: [{ type: mongoose.Types.ObjectId, ref: 'BlogPost' }],
   createdAt: { type: Date, required: true, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

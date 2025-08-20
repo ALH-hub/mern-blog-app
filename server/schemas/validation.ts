@@ -13,7 +13,7 @@ export const userCreateSchema = z.object({
       'Username can only contain letters, numbers, and underscores',
     ),
 
-  email: z.string().email('Please provide a valid email address').toLowerCase(),
+  email: z.email('Please provide a valid email address').toLowerCase(),
 
   password: z
     .string()
@@ -43,7 +43,7 @@ export const userUpdateSchema = z.object({
 });
 
 export const userLoginSchema = z.object({
-  email: z.string().email('Please provide a valid email address').toLowerCase(),
+  email: z.email('Please provide a valid email address').toLowerCase(),
 
   password: z.string().min(1, 'Password is required'),
 });

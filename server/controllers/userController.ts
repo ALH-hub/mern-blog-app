@@ -64,7 +64,8 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
     // At this point, req.params.id is already validated by Zod middleware
     const { id } = req.params;
 
-    const user = await User.findById(id).select('-password').populate('posts');
+    // const user = await User.findById(id).select('-password').populate('posts');
+    const user = await User.findById(id).select('-password');
 
     if (!user) {
       res.status(404).json({
@@ -93,9 +94,8 @@ export const getAllUsers = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const users = await User.find()
-      .select('-password')
-      .populate('posts', 'title createdAt');
+    const users = await User.find().select('-password');
+    //.populate('posts', 'title createdAt');
 
     res.status(200).json({
       success: true,

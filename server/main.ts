@@ -1,23 +1,34 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
+import userRouter from './routes/userRoutes';
 
-await mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/blog-posts")
-.then(() => {
-  console.log("Connected to MongoDB");
-})
-.catch((error) => {
-  console.log("Error connecting to MongoDB:", error);
-})
+await mongoose
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/blog-posts')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.log('Error connecting to MongoDB:', error);
+  });
 
 const app = express();
 
+// HTTP request logging
+app.use(morgan('dev'));
+
 app.use(cors());
+app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.json({ message: "Welcome to the Blog Post app Server" })
-})
+  res.json({ message: 'Welcome to the Blog Post app Server' });
+});
+
+app.use('/api/users', userRouter);
 
 app.listen(process.env.PORT || 8000, () => {
-  console.log(`Server is running on: http://localhost:${process.env.PORT || 8000}`);
+  console.log(
+    `Server is running on: http://localhost:${process.env.PORT || 8000}`,
+  );
 });
