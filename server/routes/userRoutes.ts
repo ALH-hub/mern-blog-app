@@ -12,16 +12,10 @@ import { validateSchema, validateParams } from '../middleware/validation';
 import {
   userCreateSchema,
   userUpdateSchema,
-  objectIdSchema,
+  idParamSchema,
 } from '../schemas/validation';
-import { z } from 'zod';
 
 const router = express.Router();
-
-// Parameter validation schema
-const idParamSchema = z.object({
-  id: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid MongoDB ObjectId format'),
-});
 
 // Create user route with validation
 router.post('/', validateSchema(userCreateSchema), createUser);
