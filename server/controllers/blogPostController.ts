@@ -23,7 +23,7 @@ export const createPost = async (
     }
 
     const existingUser = await User.findOne({ _id: author });
-    if (existingUser) {
+    if (!existingUser) {
       res.status(400).json({
         success: false,
         message: 'Author not found among Users',
@@ -51,3 +51,9 @@ export const createPost = async (
     });
   }
 };
+
+export const getPost = async (req: Request, res: Response): Promise<void> => {
+  try {
+
+  } catch ()
+}
