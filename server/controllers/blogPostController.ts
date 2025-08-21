@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import BlogPost from '../models/blogPostSchema';
 import User from '../models/userSchema';
 import { BlogPostCreateInput, objectIdSchema } from '../schemas/validation';
+import { success } from 'zod';
 
 export const createPost = async (
   req: Request,
@@ -54,6 +55,13 @@ export const createPost = async (
 
 export const getPost = async (req: Request, res: Response): Promise<void> => {
   try {
-
-  } catch ()
-}
+    // Ath this point, req.params.id is already validated by Zod middleware
+    const { id } = req.params;
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Error retrieving post',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
