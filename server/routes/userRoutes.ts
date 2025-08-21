@@ -9,15 +9,13 @@ import {
   getAllUsers,
 } from '../controllers/userController';
 import { validateSchema, validateParams } from '../middleware/validation';
-import { userCreateSchema, userUpdateSchema } from '../schemas/validation';
-import { z } from 'zod';
+import {
+  userCreateSchema,
+  userUpdateSchema,
+  objectIdSchema,
+} from '../schemas/validation';
 
 const router = express.Router();
-
-// Parameter validation schema
-const idParamSchema = z.object({
-  id: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid MongoDB ObjectId format'),
-});
 
 // Create user route with validation
 router.post('/', validateSchema(userCreateSchema), createUser);
@@ -26,17 +24,17 @@ router.post('/', validateSchema(userCreateSchema), createUser);
 router.get('/', getAllUsers);
 
 // Get user route with parameter validation
-router.get('/:id', validateParams(idParamSchema), getUser);
+router.get('/:id', validateParams(objectIdSchema), getUser);
 
 // Update user route with validation
 router.put(
   '/:id',
-  validateParams(idParamSchema),
+  validateParams(objectIdSchema),
   validateSchema(userUpdateSchema),
   updateUser,
 );
 
 // Delete user route with parameter validation
-router.delete('/:id', validateParams(idParamSchema), deleteUser);
+router.delete('/:id', validateParams(objectIdSchema), deleteUser);
 
 export default router;
