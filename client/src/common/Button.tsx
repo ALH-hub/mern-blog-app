@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
 }) => {
   const baseClasses =
-    'px-6 py-3 border-2 border-[#7c7dbd] rounded-lg font-semibold transition-all no-underline inline-flex items-center gap-2';
+    'px-6 py-3 border-2 border-[#7c7dbd] rounded-lg font-semibold transition-all no-underline inline-flex items-center gap-2 duration-200 ease-in-out hover:scale-105 active:scale-95';
 
   const variantClasses = {
     primary: 'bg-[#544cdb] text-white hover:bg-[#4a42c4]',
