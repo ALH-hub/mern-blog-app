@@ -9,7 +9,8 @@ function NavBar() {
       </div>
       <div className='flex items-center'>
         <Button onClick={() => console.log('Login clicked')} variant='outline'>
-          Login
+          <i className='fas fa-right-to-bracket'></i>
+          <span className='md:inline'>Login</span>
         </Button>
         <Button
           onClick={() => console.log('Sign Up clicked')}
