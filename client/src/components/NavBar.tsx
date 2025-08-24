@@ -27,7 +27,7 @@ function NavBar() {
         <img src='icon.png' alt='NexusBlog Icon' className='h-10' />
         <h1
           className={`text-lg font-bold ${
-            isDarkMode ? 'dark:text-blue-500' : 'text-white'
+            isDarkMode ? 'text-[#4a42c4]' : 'text-white'
           }`}
         >
           NexusBlog
@@ -56,7 +56,7 @@ function NavBar() {
           variant='primary'
         >
           <i className='fas fa-user-plus'></i>
-          <span className='dark:text-orange-500'>Sign Up</span>
+          <span className=''>Sign Up</span>
         </Button>
       </div>
     </div>
