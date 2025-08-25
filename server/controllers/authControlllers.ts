@@ -146,3 +146,14 @@ export const logoutUser = async (
     });
   }
 };
+
+export const userPasswordReset = async (req: Request, res: Response) => {
+  try {
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error resetting user password',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
