@@ -1,4 +1,3 @@
-// src/components/NavBar.tsx
 import Button from '../common/Button';
 import useThemeStore from '../stores/themeStore';
 
@@ -6,34 +5,39 @@ function NavBar() {
   const { isDarkMode, toggleDarkMode } = useThemeStore();
 
   return (
-    <div className='bg-white dark:bg-gray-800 text-black dark:text-white p-4 flex items-center justify-between fixed w-full shadow-md'>
+    <div
+      className={`bg-gray-800 text-white p-4 flex items-center justify-between fixed w-full`}
+    >
       <div className='flex items-center'>
         <img src='icon.png' alt='NexusBlog Icon' className='h-10' />
-        <h1 className='text-lg font-bold text-blue-600 dark:text-blue-400'>
+        <h1
+          className={`text-lg font-bold ${
+            isDarkMode ? 'dark:text-blue-500' : 'text-white'
+          }`}
+        >
           NexusBlog
         </h1>
       </div>
-
+      <div></div>
       <div className='flex items-center gap-3'>
         <button
           onClick={toggleDarkMode}
-          className='p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors'
+          className='ml-4 p-2 rounded-full transparent text-white'
         >
           <i
-            className={`fas text-xl ${
-              isDarkMode ? 'fa-sun text-yellow-400' : 'fa-moon text-gray-600'
+            className={`fas ${
+              isDarkMode
+                ? 'fa-sun text-yellow-400 text-4xl'
+                : 'fa-moon text-gray-400 text-4xl'
             }`}
           ></i>
         </button>
-
         <Button onClick={() => console.log('Login clicked')} variant='outline'>
           <i className='fas fa-right-to-bracket'></i>
-          <span className='md:inline'>Login</span>
+          <span>Login</span>
         </Button>
-
         <Button
           onClick={() => console.log('Sign Up clicked')}
-          className='ml-2'
           variant='primary'
         >
           <i className='fas fa-user-plus'></i>
