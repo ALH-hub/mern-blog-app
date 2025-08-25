@@ -3,8 +3,11 @@
 import { Request, Response } from 'express';
 import User from '../models/userSchema';
 import { hashPassword } from '../utils/helpers';
-import { UserCreateInput, UserUpdateInput } from '../schemas/validation';
-
+import {
+  objectIdSchema,
+  UserCreateInput,
+  UserUpdateInput,
+} from '../schemas/validation';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -67,6 +70,16 @@ export const updateUser = async (
     const { id } = req.params;
     const updateData: UserUpdateInput = req.body;
 
+    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
+    if (verifiedAuthor.error) {
+      res.status(400).json({
+        success: false,
+        message: 'Author verification failed',
+        error: verifiedAuthor.error.message,
+      });
+      return;
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { ...updateData, updatedAt: new Date() },
@@ -102,6 +115,16 @@ export const deleteUser = async (
   try {
     // req.params.id is validated by Zod middleware
     const { id } = req.params;
+
+    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
+    if (verifiedAuthor.error) {
+      res.status(400).json({
+        success: false,
+        message: 'Author verification failed',
+        error: verifiedAuthor.error.message,
+      });
+      return;
+    }
 
     const deletedUser = await User.findByIdAndDelete(id);
 

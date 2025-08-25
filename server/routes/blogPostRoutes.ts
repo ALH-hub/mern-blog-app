@@ -14,11 +14,17 @@ import {
   blogPostUpdateSchema,
   idParamSchema,
 } from '../schemas/validation';
+import { authenticateToken } from '../middleware/auth';
 
 const router = express.Router();
 
 // Create Post route with validateion
-router.post('/', validateSchema(blogPostCreateSchema), createPost);
+router.post(
+  '/',
+  authenticateToken,
+  validateSchema(blogPostCreateSchema),
+  createPost,
+);
 
 // Retrieve Post route with validateion
 router.get('/:id', validateParams(idParamSchema), getPost);
@@ -29,12 +35,18 @@ router.get('/', getAllPosts);
 // Update post route with validateion
 router.put(
   '/:id',
+  authenticateToken,
   validateParams(idParamSchema),
   validateSchema(blogPostUpdateSchema),
   updatePost,
 );
 
 // Delete post route with parameter validation
-router.delete('/:id', validateParams(idParamSchema), deletePost);
+router.delete(
+  '/:id',
+  authenticateToken,
+  validateParams(idParamSchema),
+  deletePost,
+);
 
 export default router;

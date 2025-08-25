@@ -11,9 +11,9 @@ export const createPost = async (
 ): Promise<void> => {
   try {
     // At this point, req.body is already validated by Zod middleware
-    const { title, content, author }: BlogPostCreateInput = req.body;
+    const { title, content }: BlogPostCreateInput = req.body;
 
-    const verifiedAuthor = objectIdSchema.safeParse(author);
+    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
     if (verifiedAuthor.error) {
       res.status(400).json({
         success: false,
@@ -22,7 +22,7 @@ export const createPost = async (
       });
     }
 
-    const existingUser = await User.findOne({ _id: author });
+    const existingUser = await User.findOne({ _id: (req as any).user.userId });
     if (!existingUser) {
       res.status(400).json({
         success: false,
@@ -33,7 +33,7 @@ export const createPost = async (
     const newPost = new BlogPost({
       title,
       content,
-      author,
+      author: (req as any).user.userId,
     });
 
     const savedPost = await newPost.save();
@@ -108,6 +108,16 @@ export const updatePost = async (
     const { id } = req.params;
     const updateData = req.body;
 
+    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
+    if (verifiedAuthor.error) {
+      res.status(400).json({
+        success: false,
+        message: 'Author verification failed',
+        error: verifiedAuthor.error.message,
+      });
+      return;
+    }
+
     const updatedPost = await BlogPost.findByIdAndUpdate(
       id,
       { ...updateData, updatedAt: new Date() },
@@ -143,6 +153,16 @@ export const deletePost = async (
   try {
     // req.params.id is validated by Zod middleware
     const { id } = req.params;
+
+    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
+    if (verifiedAuthor.error) {
+      res.status(400).json({
+        success: false,
+        message: 'Author verification failed',
+        error: verifiedAuthor.error.message,
+      });
+      return;
+    }
 
     const deletedPost = await BlogPost.findByIdAndDelete(id);
 

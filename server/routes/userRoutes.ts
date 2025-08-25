@@ -13,6 +13,7 @@ import {
   userUpdateSchema,
   idParamSchema,
 } from '../schemas/validation';
+import { authenticateToken } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -25,12 +26,18 @@ router.get('/:id', validateParams(idParamSchema), getUser);
 // Update user route with validation
 router.put(
   '/:id',
+  authenticateToken,
   validateParams(idParamSchema),
   validateSchema(userUpdateSchema),
   updateUser,
 );
 
 // Delete user route with parameter validation
-router.delete('/:id', validateParams(idParamSchema), deleteUser);
+router.delete(
+  '/:id',
+  authenticateToken,
+  validateParams(idParamSchema),
+  deleteUser,
+);
 
 export default router;

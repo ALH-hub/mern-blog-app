@@ -57,10 +57,6 @@ export const blogPostCreateSchema = z.object({
     .trim(),
 
   content: z.string().min(10, 'Content must be at least 10 characters').trim(),
-
-  author: z
-    .string()
-    .regex(/^[0-9a-fA-F]{24}$/, 'Author must be a valid MongoDB ObjectId'),
 });
 
 export const blogPostUpdateSchema = z.object({
