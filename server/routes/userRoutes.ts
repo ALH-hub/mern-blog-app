@@ -2,7 +2,6 @@
 
 import express from 'express';
 import {
-  createUser,
   getUser,
   updateUser,
   deleteUser,
@@ -18,7 +17,7 @@ import {
 const router = express.Router();
 
 // Create user route with validation
-router.post('/', validateSchema(userCreateSchema), createUser);
+// router.post('/', validateSchema(userCreateSchema), createUser);
 
 // Get all users route
 router.get('/', getAllUsers);

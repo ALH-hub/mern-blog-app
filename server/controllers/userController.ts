@@ -5,59 +5,6 @@ import User from '../models/userSchema';
 import { hashPassword } from '../utils/helpers';
 import { UserCreateInput, UserUpdateInput } from '../schemas/validation';
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-): Promise<void> => {
-  try {
-    // At this point, req.body is already validated by Zod middleware
-    const { username, email, password }: UserCreateInput = req.body;
-
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      res.status(400).json({
-        success: false,
-        message: 'User already exists with this email',
-      });
-      return;
-    }
-
-    // Hash password
-    const hashedPassword = await hashPassword(password);
-
-    // Create new user
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-    });
-
-    const savedUser = await newUser.save();
-
-    // Remove password from response
-    const userResponse = {
-      _id: savedUser._id,
-      username: savedUser.username,
-      email: savedUser.email,
-      posts: savedUser.posts,
-      createdAt: savedUser.createdAt,
-      updatedAt: savedUser.updatedAt,
-    };
-
-    res.status(201).json({
-      success: true,
-      message: 'User created successfully',
-      data: userResponse,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error creating user',
-      error: error instanceof Error ? error.message : 'Unknown error',
-    });
-  }
-};
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {

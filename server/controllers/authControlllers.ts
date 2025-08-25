@@ -1,0 +1,148 @@
+import { Request, Response } from 'express';
+import User from '../models/userSchema';
+import { comparePassword, generateToken, hashPassword } from '../utils/helpers';
+import { UserCreateInput } from '../schemas/validation';
+import tokenBlacklist from '../models/tokenBlacklist';
+
+export const registerUser = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    // At this point, req.body is already validated by Zod middleware
+    const { username, email, password }: UserCreateInput = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      res.status(400).json({
+        success: false,
+        message: 'User already exists with this email',
+      });
+      return;
+    }
+
+    // Hash password
+    const hashedPassword = await hashPassword(password);
+
+    // Create new user
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
+    const savedUser = await newUser.save();
+
+    const token = generateToken(savedUser._id as string);
+
+    // Remove password from response
+    const userResponse = {
+      _id: savedUser._id,
+      username: savedUser.username,
+      email: savedUser.email,
+      posts: savedUser.posts,
+      token: token,
+      createdAt: savedUser.createdAt,
+      updatedAt: savedUser.updatedAt,
+    };
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      data: userResponse,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error creating user',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
+
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(400).json({
+        success: false,
+        message: 'Invalid email or password',
+      });
+      return;
+    }
+
+    // Check password
+    const isMatch = comparePassword(password, user.password);
+    if (!isMatch) {
+      res.status(400).json({
+        success: false,
+        message: 'Invalid email or password',
+      });
+      return;
+    }
+
+    const token = generateToken(user._id as string);
+
+    // Remove password from response
+    const userResponse = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      posts: user.posts,
+      token: token,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
+    res.status(200).json({
+      success: true,
+      message: 'User logged in successfully',
+      data: userResponse,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error logging in user',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
+
+export const logoutUser = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      res.status(400).json({
+        success: false,
+        message: 'No token provided',
+      });
+      return;
+    }
+
+    // Add token to blacklist
+    const blacklistedToken = new tokenBlacklist({
+      token,
+      userId: req.body._id,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
+    });
+    await blacklistedToken.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'User logged out',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error logging out user',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
