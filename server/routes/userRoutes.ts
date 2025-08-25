@@ -16,9 +16,6 @@ import {
 
 const router = express.Router();
 
-// Create user route with validation
-// router.post('/', validateSchema(userCreateSchema), createUser);
-
 // Get all users route
 router.get('/', getAllUsers);
 

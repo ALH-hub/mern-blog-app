@@ -4,18 +4,28 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
 import mongoose from 'mongoose';
+import tokenBlacklist from '../models/tokenBlacklist';
 
 // Authentication middleware
-export const authenticateToken = (
+export const authenticateToken = async (
   req: Request,
   res: Response,
   next: NextFunction,
-): void => {
+): Promise<void> => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
   if (!token) {
     res.status(401).json({ message: 'Access token required' });
+    return;
+  }
+
+  const blacklistedToken = await tokenBlacklist.findOne({ token });
+  if (blacklistedToken) {
+    res.status(403).json({
+      success: false,
+      message: 'Token has been invalidated. Please login again',
+    });
     return;
   }
 

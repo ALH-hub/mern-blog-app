@@ -4,9 +4,13 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import userRouter from './routes/userRoutes';
 import postRouter from './routes/blogPostRoutes';
+import authRouter from './routes/authRoutes';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 await mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/blog-posts')
+  .connect(process.env.MONGODB_URI as string)
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -25,6 +29,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Blog Post app Server' });
 });
 
+app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
 

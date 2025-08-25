@@ -129,7 +129,7 @@ export const logoutUser = async (
     // Add token to blacklist
     const blacklistedToken = new tokenBlacklist({
       token,
-      userId: req.body._id,
+      userId: (req as any).user.userId,
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
     });
     await blacklistedToken.save();
