@@ -120,7 +120,7 @@ export const PasswordResetRequestSchema = z.object({
 
 export const PasswordResetConfirmSchema = z.object({
   email: z.email('Invalid email format'),
-  resetCode: z.string().min(8, 'Reset code must be 8 characters long'),
+  resetCode: z.string().min(6, 'Reset code must be 6 characters long'),
   newPassword: z
     .string()
     .min(6, 'New password must be at least 6 characters long'),

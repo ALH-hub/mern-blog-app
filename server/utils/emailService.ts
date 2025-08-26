@@ -1,20 +1,24 @@
 import nodemailer from 'nodemailer';
+import { timeout } from 'promise-timeout';
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-export const sendPasswordResetEmail = async (
+const sendPasswordResetEmail = async (
   email: string,
   resetCode: string,
   username: string,
 ): Promise<void> => {
+  const userEmail = process.env.EMAIL_USER;
+  const userPassword = process.env.EMAIL_PASS;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: userEmail,
+      pass: userPassword,
+    },
+  });
+
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: userEmail,
     to: email,
     subject: 'Password Reset Request',
     html: `
@@ -33,7 +37,12 @@ export const sendPasswordResetEmail = async (
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await timeout(transporter.sendMail(mailOptions), 60000);
+  } catch (error) {
+    console.error('Timeout sending email:', error);
+    return;
+  }
 };
 
 export default sendPasswordResetEmail;

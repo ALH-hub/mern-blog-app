@@ -19,7 +19,7 @@ export const comparePassword = async (
 };
 
 export const generateResetCode = (): string => {
-  return crypto.randomBytes(8).toString('hex').toUpperCase();
+  return crypto.randomBytes(6).toString('hex').toUpperCase();
 };
 
 // JWT utilities

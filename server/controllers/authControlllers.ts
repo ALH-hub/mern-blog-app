@@ -196,6 +196,8 @@ export const requestPasswordReset = async (
       message: 'Password reset email sent successfully.',
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: 'Error resetting user password',
