@@ -1,9 +1,8 @@
 // Defining Blog Post Controllers
-
 import { Request, Response } from 'express';
-import BlogPost from '../models/blogPostSchema';
-import User from '../models/userSchema';
-import { BlogPostCreateInput, objectIdSchema } from '../schemas/validation';
+import BlogPost from '../models/blogPostSchema.js';
+import User from '../models/userSchema.js';
+import { BlogPostCreateInput, objectIdSchema } from '../schemas/validation.js';
 
 export const createPost = async (
   req: Request,

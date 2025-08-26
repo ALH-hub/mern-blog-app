@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
 import mongoose from 'mongoose';
-import tokenBlacklist from '../models/tokenBlacklist';
+import tokenBlacklist from '../models/tokenBlacklist.js';
 
 // Authentication middleware
 export const authenticateToken = async (

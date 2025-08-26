@@ -1,19 +1,17 @@
-// User routes with Zod validation
-
 import express from 'express';
 import {
   getUser,
   updateUser,
   deleteUser,
   getAllUsers,
-} from '../controllers/userController';
-import { validateSchema, validateParams } from '../middleware/validation';
+} from '../controllers/userController.js';
+import { validateSchema, validateParams } from '../middleware/validation.js';
 import {
   userCreateSchema,
   userUpdateSchema,
   idParamSchema,
-} from '../schemas/validation';
-import { authenticateToken } from '../middleware/auth';
+} from '../schemas/validation.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 

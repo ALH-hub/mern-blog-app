@@ -3,10 +3,13 @@ import {
   registerUser,
   loginUser,
   logoutUser,
-} from '../controllers/authControlllers';
-import { authenticateToken, handleValidationErrors } from '../middleware/auth';
-import { validateSchema } from '../middleware/validation';
-import { userCreateSchema, userLoginSchema } from '../schemas/validation';
+} from '../controllers/authControlllers.js';
+import {
+  authenticateToken,
+  handleValidationErrors,
+} from '../middleware/auth.js';
+import { validateSchema } from '../middleware/validation.js';
+import { userCreateSchema, userLoginSchema } from '../schemas/validation.js';
 
 const routes = express.Router();
 

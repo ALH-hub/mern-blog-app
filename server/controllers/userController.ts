@@ -1,13 +1,12 @@
 // Defining User controllers
-
 import { Request, Response } from 'express';
-import User from '../models/userSchema';
-import { hashPassword } from '../utils/helpers';
+import User from '../models/userSchema.js';
+import { hashPassword } from '../utils/helpers.js';
 import {
   objectIdSchema,
   UserCreateInput,
   UserUpdateInput,
-} from '../schemas/validation';
+} from '../schemas/validation.js';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {

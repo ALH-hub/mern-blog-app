@@ -7,14 +7,14 @@ import {
   getAllPosts,
   updatePost,
   deletePost,
-} from '../controllers/blogPostController';
-import { validateSchema, validateParams } from '../middleware/validation';
+} from '../controllers/blogPostController.js';
+import { validateSchema, validateParams } from '../middleware/validation.js';
 import {
   blogPostCreateSchema,
   blogPostUpdateSchema,
   idParamSchema,
-} from '../schemas/validation';
-import { authenticateToken } from '../middleware/auth';
+} from '../schemas/validation.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 

@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import { ref } from 'process';
-import { string } from 'zod';
 
 interface ITokenBlacklist extends mongoose.Document {
   token: string;

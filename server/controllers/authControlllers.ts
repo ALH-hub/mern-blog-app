@@ -1,8 +1,12 @@
 import { Request, Response } from 'express';
-import User from '../models/userSchema';
-import { comparePassword, generateToken, hashPassword } from '../utils/helpers';
-import { UserCreateInput } from '../schemas/validation';
-import tokenBlacklist from '../models/tokenBlacklist';
+import User from '../models/userSchema.js';
+import {
+  comparePassword,
+  generateToken,
+  hashPassword,
+} from '../utils/helpers.js';
+import { UserCreateInput } from '../schemas/validation.js';
+import tokenBlacklist from '../models/tokenBlacklist.js';
 
 export const registerUser = async (
   req: Request,

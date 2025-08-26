@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
-import userRouter from './routes/userRoutes';
-import postRouter from './routes/blogPostRoutes';
-import authRouter from './routes/authRoutes';
+import userRouter from './routes/userRoutes.js';
+import postRouter from './routes/blogPostRoutes.js';
+import authRouter from './routes/authRoutes.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
