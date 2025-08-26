@@ -1,6 +1,6 @@
 // Zod schemas for data validation
 
-import { z } from 'zod';
+import { email, z } from 'zod';
 
 // User schemas
 export const userCreateSchema = z.object({
@@ -113,6 +113,19 @@ export const fileUploadSchema = z.object({
   size: z.number().max(5 * 1024 * 1024, 'File size must be less than 5MB'),
 });
 
+// Password reset schema
+export const PasswordResetRequestSchema = z.object({
+  email: z.email('Invalid email format'),
+});
+
+export const PasswordResetConfirmSchema = z.object({
+  email: z.email('Invalid email format'),
+  resetCode: z.string().min(8, 'Reset code must be 8 characters long'),
+  newPassword: z
+    .string()
+    .min(6, 'New password must be at least 6 characters long'),
+});
+
 // Type exports for TypeScript
 export type UserCreateInput = z.infer<typeof userCreateSchema>;
 export type UserUpdateInput = z.infer<typeof userUpdateSchema>;
@@ -120,3 +133,9 @@ export type UserLoginInput = z.infer<typeof userLoginSchema>;
 export type BlogPostCreateInput = z.infer<typeof blogPostCreateSchema>;
 export type BlogPostUpdateInput = z.infer<typeof blogPostUpdateSchema>;
 export type PaginationInput = z.infer<typeof paginationSchema>;
+export type PasswordResetRequestInput = z.infer<
+  typeof PasswordResetRequestSchema
+>;
+export type PasswordResetConfirmInput = z.infer<
+  typeof PasswordResetConfirmSchema
+>;

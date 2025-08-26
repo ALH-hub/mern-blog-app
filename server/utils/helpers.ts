@@ -3,6 +3,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 // Password utilities
 export const hashPassword = async (password: string): Promise<string> => {
@@ -15,6 +16,10 @@ export const comparePassword = async (
   hashedPassword: string,
 ): Promise<boolean> => {
   return await bcrypt.compare(password, hashedPassword);
+};
+
+export const generateResetCode = (): string => {
+  return crypto.randomBytes(8).toString('hex').toUpperCase();
 };
 
 // JWT utilities

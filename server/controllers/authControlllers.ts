@@ -5,8 +5,14 @@ import {
   generateToken,
   hashPassword,
 } from '../utils/helpers.js';
-import { UserCreateInput } from '../schemas/validation.js';
+import {
+  PasswordResetRequestInput,
+  UserCreateInput,
+} from '../schemas/validation.js';
 import tokenBlacklist from '../models/tokenBlacklist.js';
+import { generateResetCode } from '../utils/helpers.js';
+import PasswordReset from '../models/passwordResetSchema.js';
+import sendPasswordResetEmail from '../utils/emailService.js';
 
 export const registerUser = async (
   req: Request,
@@ -151,8 +157,41 @@ export const logoutUser = async (
   }
 };
 
-export const userPasswordReset = async (req: Request, res: Response) => {
+export const requestPasswordReset = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
+    const { email }: PasswordResetRequestInput = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: 'User not found with this email.',
+      });
+      return;
+    }
+
+    // Generate reset code
+    const resetCode = generateResetCode();
+
+    await PasswordReset.deleteMany({ userId: user._id });
+
+    const passwordReset = new PasswordReset({
+      userId: user._id,
+      email: user.email,
+      resetCode,
+    });
+
+    await passwordReset.save();
+
+    await sendPasswordResetEmail(user.email, resetCode, user.username);
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset email sent successfully.',
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
