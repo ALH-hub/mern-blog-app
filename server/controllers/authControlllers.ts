@@ -1,18 +1,21 @@
 import { Request, Response } from 'express';
+
 import User from '../models/userSchema.js';
+import tokenBlacklist from '../models/tokenBlacklist.js';
+import PasswordReset from '../models/passwordResetSchema.js';
+
 import {
   comparePassword,
   generateToken,
   hashPassword,
+  generateResetCode,
 } from '../utils/helpers.js';
+import sendPasswordResetEmail from '../utils/emailService.js';
+
 import {
   PasswordResetRequestInput,
   UserCreateInput,
 } from '../schemas/validation.js';
-import tokenBlacklist from '../models/tokenBlacklist.js';
-import { generateResetCode } from '../utils/helpers.js';
-import PasswordReset from '../models/passwordResetSchema.js';
-import sendPasswordResetEmail from '../utils/emailService.js';
 
 export const registerUser = async (
   req: Request,

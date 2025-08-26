@@ -1,8 +1,8 @@
 // Authentication and validation middleware
 
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import tokenBlacklist from '../models/tokenBlacklist.js';
 
