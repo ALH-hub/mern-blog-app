@@ -200,3 +200,50 @@ export const requestPasswordReset = async (
     });
   }
 };
+
+export const confirmPasswordReset = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const { email, resetCode, newPassword } = req.body;
+
+    const passwordResetRecord = await PasswordReset.findOne({
+      email,
+      resetCode,
+      isUsed: false,
+      expiresAt: { $gt: new Date() },
+    });
+
+    if (!passwordResetRecord) {
+      res.status(400).json({
+        success: false,
+        message: 'Invalid or expired password reset token.',
+      });
+      return;
+    }
+
+    // Hash new password
+    const hashedPassword = await hashPassword(newPassword);
+
+    // Update user password
+    await User.findByIdAndUpdate(passwordResetRecord.userId, {
+      password: hashedPassword,
+    });
+
+    // Mark reset code as used
+    passwordResetRecord.isUsed = true;
+    await passwordResetRecord.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully.',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error confirming password reset',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
