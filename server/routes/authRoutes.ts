@@ -23,6 +23,7 @@ import { validateSchema } from '../middleware/validation.js';
 
 const routes = express.Router();
 
+// Register a new user route
 routes.post(
   '/register',
   validateSchema(userCreateSchema),

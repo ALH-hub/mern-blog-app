@@ -5,6 +5,7 @@ import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import tokenBlacklist from '../models/tokenBlacklist.js';
+import { UserRole } from '../models/userSchema.js';
 
 // Authentication middleware
 export const authenticateToken = async (
@@ -59,6 +60,11 @@ export const validateUser = [
     .withMessage(
       'Password must contain at least one uppercase letter, one lowercase letter, and one number',
     ),
+
+  body('role')
+    .optional()
+    .isIn(Object.values(UserRole))
+    .withMessage(`Role must be one of: ${Object.values(UserRole).join(', ')}`),
 ];
 
 export const validateBlogPost = [

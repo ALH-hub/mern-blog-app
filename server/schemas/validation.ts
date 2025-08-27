@@ -22,6 +22,8 @@ export const userCreateSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
       'Password must contain at least one uppercase letter, one lowercase letter, and one number',
     ),
+
+  role: z.string().toLowerCase().optional(),
 });
 
 export const userUpdateSchema = z.object({

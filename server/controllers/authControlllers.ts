@@ -23,7 +23,7 @@ export const registerUser = async (
 ): Promise<void> => {
   try {
     // At this point, req.body is already validated by Zod middleware
-    const { username, email, password }: UserCreateInput = req.body;
+    const { username, email, password, role }: UserCreateInput = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -38,12 +38,24 @@ export const registerUser = async (
     // Hash password
     const hashedPassword = await hashPassword(password);
 
-    // Create new user
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-    });
+    let registerNewUser = {};
+    if (role) {
+      // Create new user
+      registerNewUser = {
+        username,
+        email,
+        password: hashedPassword,
+        role,
+      };
+    } else {
+      registerNewUser = {
+        username,
+        email,
+        password: hashedPassword,
+      };
+    }
+
+    const newUser = new User(registerNewUser);
 
     const savedUser = await newUser.save();
 
@@ -55,6 +67,7 @@ export const registerUser = async (
       username: savedUser.username,
       email: savedUser.email,
       posts: savedUser.posts,
+      role: savedUser.role,
       token: token,
       createdAt: savedUser.createdAt,
       updatedAt: savedUser.updatedAt,
