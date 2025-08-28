@@ -12,7 +12,9 @@ export const createPost = async (
     // At this point, req.body is already validated by Zod middleware
     const { title, content }: BlogPostCreateInput = req.body;
 
-    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
+    const { userId } = (req as any).user;
+
+    const verifiedAuthor = objectIdSchema.safeParse(userId);
     if (verifiedAuthor.error) {
       res.status(400).json({
         success: false,
@@ -21,7 +23,7 @@ export const createPost = async (
       });
     }
 
-    const existingUser = await User.findOne({ _id: (req as any).user.userId });
+    const existingUser = await User.findOne({ _id: userId });
     if (!existingUser) {
       res.status(400).json({
         success: false,
@@ -32,7 +34,7 @@ export const createPost = async (
     const newPost = new BlogPost({
       title,
       content,
-      author: (req as any).user.userId,
+      author: userId,
     });
 
     const savedPost = await newPost.save();
