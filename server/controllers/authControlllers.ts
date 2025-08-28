@@ -120,6 +120,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       email: user.email,
       posts: user.posts,
       token: token,
+      role: user.role,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
