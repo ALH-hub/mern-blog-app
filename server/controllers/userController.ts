@@ -1,4 +1,5 @@
 // Defining User controllers
+
 import { Request, Response } from 'express';
 import User from '../models/userSchema.js';
 import { objectIdSchema, UserUpdateInput } from '../schemas/validation.js';

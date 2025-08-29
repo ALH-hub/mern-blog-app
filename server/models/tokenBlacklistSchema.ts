@@ -1,3 +1,5 @@
+// Token blacklist Schema
+
 import mongoose from 'mongoose';
 
 interface ITokenBlacklist extends mongoose.Document {

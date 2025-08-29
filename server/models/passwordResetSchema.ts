@@ -1,3 +1,5 @@
+// Password reset request schema
+
 import mongoose from 'mongoose';
 
 interface IPasswordReset {
