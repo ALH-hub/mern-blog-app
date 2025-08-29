@@ -5,7 +5,10 @@ import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import tokenBlacklist from '../models/tokenBlacklist.js';
-import { UserRole } from '../models/userSchema.js';
+import User, { UserRole } from '../models/userSchema.js';
+import { success } from 'zod';
+import { verifyToken } from '../utils/helpers.js';
+import { decode } from 'punycode';
 
 // Authentication middleware
 export const authenticateToken = async (
@@ -30,14 +33,53 @@ export const authenticateToken = async (
     return;
   }
 
-  jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
-    if (err) {
-      res.status(403).json({ message: 'Invalid or expired token' });
-      return;
-    }
-    (req as any).user = user;
-    next();
-  });
+  const decoded = verifyToken(token);
+
+  const user = await User.findById(decoded.userId).select('-password');
+  if (!user) {
+    res.status(401).json({
+      success: false,
+      message: 'User not found',
+    });
+    return;
+  }
+
+  (req as any).user = {
+    userId: (
+      user as typeof User.prototype & { _id: mongoose.Types.ObjectId }
+    )._id.toString(),
+    role: (user as typeof User.prototype & { role: UserRole }).role,
+    username: (user as typeof User.prototype).username,
+    email: (user as typeof User.prototype).email,
+  };
+
+  next();
+};
+
+export const verifyAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const user = (req as any).user;
+  if (!user) {
+    res.status(403).json({
+      success: false,
+      message: 'Access denied!',
+    });
+
+    return;
+  }
+
+  if (user.role !== 'admin') {
+    res.status(403).json({
+      success: false,
+      message: 'Admin access required',
+    });
+    return;
+  }
+
+  next();
 };
 
 // Validation middleware
