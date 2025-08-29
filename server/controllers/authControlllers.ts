@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import User from '../models/userSchema.js';
-import tokenBlacklist from '../models/tokenBlacklist.js';
+import tokenBlacklist from '../models/tokenBlacklistSchema.js';
 import PasswordReset from '../models/passwordResetSchema.js';
 
 import {

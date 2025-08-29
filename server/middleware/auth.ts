@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import tokenBlacklist from '../models/tokenBlacklist.js';
+import tokenBlacklist from '../models/tokenBlacklistSchema.js';
 import User, { UserRole } from '../models/userSchema.js';
 import { success } from 'zod';
 import { verifyToken } from '../utils/helpers.js';
