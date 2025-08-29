@@ -110,18 +110,8 @@ export const updatePost = async (
     const { id } = req.params;
     const updateData = req.body;
 
-    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
-    if (verifiedAuthor.error) {
-      res.status(400).json({
-        success: false,
-        message: 'Author verification failed',
-        error: verifiedAuthor.error.message,
-      });
-      return;
-    }
-
-    const updatedPost = await BlogPost.findByIdAndUpdate(
-      id,
+    const updatedPost = await BlogPost.findOneAndUpdate(
+      { _id: id, author: (req as any).user.userId },
       { ...updateData, updatedAt: new Date() },
       { new: true, runValidators: true },
     );
@@ -156,17 +146,10 @@ export const deletePost = async (
     // req.params.id is validated by Zod middleware
     const { id } = req.params;
 
-    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
-    if (verifiedAuthor.error) {
-      res.status(400).json({
-        success: false,
-        message: 'Author verification failed',
-        error: verifiedAuthor.error.message,
-      });
-      return;
-    }
-
-    const deletedPost = await BlogPost.findByIdAndDelete(id);
+    const deletedPost = await BlogPost.findOneAndDelete({
+      _id: id,
+      author: (req as any).user.userId,
+    });
 
     if (!deletedPost) {
       res.status(404).json({

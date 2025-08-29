@@ -22,6 +22,18 @@ export const generateResetCode = (): string => {
   return crypto.randomBytes(6).toString('hex').toUpperCase();
 };
 
+// Authorized utitilites
+export const authorizedUser = (
+  userId: string,
+  role: string,
+  id: string,
+): boolean => {
+  if (userId !== id || role !== 'admin') {
+    return false;
+  }
+  return true;
+};
+
 // JWT utilities
 export const generateToken = (userId: string): string => {
   return jwt.sign({ userId }, process.env.JWT_SECRET as string, {

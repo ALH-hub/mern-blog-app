@@ -3,6 +3,7 @@
 import { Request, Response } from 'express';
 import User from '../models/userSchema.js';
 import { objectIdSchema, UserUpdateInput } from '../schemas/validation.js';
+import { authorizedUser } from '../utils/helpers.js';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -64,13 +65,12 @@ export const updateUser = async (
     // Both params and body are validated by Zod middleware
     const { id } = req.params;
     const updateData: UserUpdateInput = req.body;
+    const user = (req as any).user;
 
-    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
-    if (verifiedAuthor.error) {
-      res.status(400).json({
+    if (authorizedUser(user.userId, user.role, id)) {
+      res.status(403).json({
         success: false,
-        message: 'Author verification failed',
-        error: verifiedAuthor.error.message,
+        message: 'Not authorized to delete this user',
       });
       return;
     }
@@ -117,6 +117,15 @@ export const deleteUser = async (
         success: false,
         message: 'Author verification failed',
         error: verifiedAuthor.error.message,
+      });
+      return;
+    }
+
+    const user = (req as any).user;
+    if (authorizedUser(user.userId, user.role, id)) {
+      res.status(403).json({
+        success: false,
+        message: 'Not authorized to delete this user',
       });
       return;
     }
