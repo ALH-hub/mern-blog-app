@@ -12,8 +12,7 @@ import { authenticateToken, verifyAdmin } from '../middleware/auth.js';
 const router = express.Router();
 
 // Get all users route
-// router.get('/', authenticateToken, verifyAdmin, getAllUsers);
-router.get('/', getAllUsers);
+router.get('/', authenticateToken, verifyAdmin, getAllUsers);
 
 // Get user route with parameter validation
 router.get('/:id', validateParams(idParamSchema), getUser);
