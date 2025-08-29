@@ -67,10 +67,12 @@ export const updateUser = async (
     const updateData: UserUpdateInput = req.body;
     const user = (req as any).user;
 
-    if (authorizedUser(user.userId, user.role, id)) {
+    console.log(user);
+
+    if (!authorizedUser(user.userId, user.role, id)) {
       res.status(403).json({
         success: false,
-        message: 'Not authorized to delete this user',
+        message: 'Not authorized to update this user',
       });
       return;
     }

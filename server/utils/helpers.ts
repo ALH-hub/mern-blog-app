@@ -28,9 +28,12 @@ export const authorizedUser = (
   role: string,
   id: string,
 ): boolean => {
-  if (userId !== id || role !== 'admin') {
+  console.log(role);
+  console.log(role === 'admin');
+  if (role !== 'admin' && userId !== id) {
     return false;
   }
+  console.log('success from helper');
   return true;
 };
 

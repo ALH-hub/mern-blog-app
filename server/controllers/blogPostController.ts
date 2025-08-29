@@ -15,15 +15,6 @@ export const createPost = async (
 
     const { userId } = (req as any).user;
 
-    const verifiedAuthor = objectIdSchema.safeParse(userId);
-    if (verifiedAuthor.error) {
-      res.status(400).json({
-        success: false,
-        message: 'Author verification id Failed',
-        error: verifiedAuthor.error.message,
-      });
-    }
-
     const existingUser = await User.findOne({ _id: userId });
     if (!existingUser) {
       res.status(400).json({
@@ -154,7 +145,7 @@ export const deletePost = async (
     if (!deletedPost) {
       res.status(404).json({
         success: false,
-        message: 'Post not found',
+        message: 'Post not found or it is not your Post',
       });
       return;
     }

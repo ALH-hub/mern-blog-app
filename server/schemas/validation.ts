@@ -38,10 +38,14 @@ export const userUpdateSchema = z.object({
     .optional(),
 
   email: z
-    .string()
     .email('Please provide a valid email address')
     .toLowerCase()
     .optional(),
+
+  role: z
+    .string()
+    .min(4, 'Role must be at least 4 characters')
+    .max(6, 'Role must be at most 6 characters'),
 });
 
 export const userLoginSchema = z.object({
