@@ -67,8 +67,6 @@ export const updateUser = async (
     const updateData: UserUpdateInput = req.body;
     const user = (req as any).user;
 
-    console.log(user);
-
     if (!authorizedUser(user.userId, user.role, id)) {
       res.status(403).json({
         success: false,
