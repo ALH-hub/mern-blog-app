@@ -7,12 +7,12 @@ import {
 } from '../controllers/userController.js';
 import { validateSchema, validateParams } from '../middleware/validation.js';
 import { userUpdateSchema, idParamSchema } from '../schemas/validation.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { authenticateToken, verifyAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Get all users route
-router.get('/', getAllUsers);
+router.get('/', authenticateToken, verifyAdmin, getAllUsers);
 
 // Get user route with parameter validation
 router.get('/:id', validateParams(idParamSchema), getUser);

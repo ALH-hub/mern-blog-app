@@ -30,20 +30,26 @@ routes.post(
   handleValidationErrors,
   registerUser,
 );
+
+// Login into your account route
 routes.post(
   '/login',
   validateSchema(userLoginSchema),
   handleValidationErrors,
   loginUser,
 );
+
+// Logout from your account route
 routes.post('/logout', authenticateToken, logoutUser);
 
+// Request for password reset route
 routes.post(
   '/password-reset',
   validateSchema(PasswordResetRequestSchema),
   requestPasswordReset,
 );
 
+// Confirm your password reset request route
 routes.post(
   '/password-reset/confirm',
   validateSchema(PasswordResetConfirmSchema),
