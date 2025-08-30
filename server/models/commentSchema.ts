@@ -96,7 +96,7 @@ commentSchema.post('findOneAndDelete', async function (doc) {
   }
 });
 
-// Post-remove middleware to remove multiple comment IDs from post
+// Post-update to handle soft deletes (when isDeleted is set to true)
 commentSchema.post('findOneAndUpdate', async function (doc) {
   try {
     if (doc && doc.isDeleted) {
