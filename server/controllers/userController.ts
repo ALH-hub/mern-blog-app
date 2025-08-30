@@ -2,7 +2,7 @@
 
 import { Request, Response } from 'express';
 import User from '../models/userSchema.js';
-import { objectIdSchema, UserUpdateInput } from '../schemas/validation.js';
+import { UserUpdateInput } from '../schemas/validation.js';
 import { authorizedUser } from '../utils/helpers.js';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
@@ -110,18 +110,8 @@ export const deleteUser = async (
   try {
     // req.params.id is validated by Zod middleware
     const { id } = req.params;
-
-    const verifiedAuthor = objectIdSchema.safeParse((req as any).user.userId);
-    if (verifiedAuthor.error) {
-      res.status(400).json({
-        success: false,
-        message: 'Author verification failed',
-        error: verifiedAuthor.error.message,
-      });
-      return;
-    }
-
     const user = (req as any).user;
+
     if (authorizedUser(user.userId, user.role, id)) {
       res.status(403).json({
         success: false,
