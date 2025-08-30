@@ -1,22 +1,37 @@
 // BlogPost Schema definition
 
 import mongoose from 'mongoose';
-
 interface IBlogPost extends mongoose.Document {
   title: string;
   content: string;
   author: mongoose.Types.ObjectId;
+  comments: mongoose.Types.ObjectId[];
+  commentCount: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const BlogPostSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-  author: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
-  createdAt: { type: Date, required: true, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
+const BlogPostSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
+    commentCount: { type: Number, default: 0 },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 // Middleware: After saving a blog post, add it to user's posts array
 BlogPostSchema.post('save', async function (doc) {
@@ -60,6 +75,8 @@ BlogPostSchema.post('deleteMany', async function () {
   }
 });
 
-const BlogPost = mongoose.model<IBlogPost>('BlogPost', BlogPostSchema);
+BlogPostSchema.virtual('totalComments').get(function () {
+  return this.comments?.length || 0;
+});
 
-export default BlogPost;
+export default mongoose.model<IBlogPost>('BlogPost', BlogPostSchema);
