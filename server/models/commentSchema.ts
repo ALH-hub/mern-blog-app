@@ -62,4 +62,50 @@ commentSchema.index({ post: 1, parentComment: 1 });
 commentSchema.index({ author: 1 });
 commentSchema.index({ createdAt: -1 });
 
+// Post-save middleware to add comment ID to post
+commentSchema.post('save', async function (doc) {
+  try {
+    if (this.isNew) {
+      await mongoose.model('BlogPost').findByIdAndUpdate(doc.post, {
+        $addToSet: { comments: doc._id },
+        $inc: { commentCount: 1 },
+      });
+    }
+  } catch (error) {
+    console.error(
+      'Error updating post comments, from post save middleware:',
+      error,
+    );
+  }
+});
+
+// Post-remove middleware to remove comment ID from post
+commentSchema.post('findOneAndDelete', async function (doc) {
+  try {
+    if (doc) {
+      await mongoose.model('BlogPost').findByIdAndDelete(doc.post, {
+        $pull: { comments: doc._id },
+        $inc: { commentCount: -1 },
+      });
+    }
+  } catch (error) {
+    console.error(
+      'Error updating post comments, from post findOneAndDelete middleware:',
+      error,
+    );
+  }
+});
+
+// Post-remove middleware to remove multiple comment IDs from post
+commentSchema.post('findOneAndUpdate', async function (doc) {
+  try {
+    if (doc && doc.isDeleted) {
+      mongoose
+        .model('BlogPost')
+        .findByIdAndUpdate(doc.post, { $inc: { commentCount: -1 } });
+    }
+  } catch (error) {
+    console.error('Error handling soft delete:', error);
+  }
+});
 export default mongoose.model<IComment>('Comment', commentSchema);
