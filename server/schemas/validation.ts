@@ -2,7 +2,7 @@
 
 import { email, z } from 'zod';
 
-// User schemas
+// User validation schemas
 export const userCreateSchema = z.object({
   username: z
     .string()
@@ -80,7 +80,7 @@ export const blogPostUpdateSchema = z.object({
     .optional(),
 });
 
-// Comment schemas
+// Comment validation schemas
 export const commentCreateSchema = z.object({
   content: z
     .string()
