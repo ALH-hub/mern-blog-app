@@ -22,7 +22,7 @@ const router = express.Router();
 
 // Create comment route
 router.post(
-  '/:postId/comments',
+  '/',
   authenticateToken,
   validateSchema(commentCreateSchema),
   validateParams(postCommentParamsSchema),
@@ -31,7 +31,7 @@ router.post(
 
 // Get all post omments
 router.get(
-  '/:postId/comments',
+  '/',
   authenticateToken,
   validateParams(postCommentParamsSchema),
   validateQuery(paginationSchema),
@@ -40,7 +40,7 @@ router.get(
 
 // Update a post comment
 router.put(
-  '/:postId/comments/:commentId',
+  '/:commentId',
   authenticateToken,
   validateParams(postCommentParamsSchema),
   validateSchema(commentUpdateSchema),
@@ -49,7 +49,7 @@ router.put(
 
 // Delete a post comment
 router.delete(
-  '/:postId/comments/:commentId',
+  '/:commentId',
   authenticateToken,
   validateParams(postCommentParamsSchema),
   deleteComment,
