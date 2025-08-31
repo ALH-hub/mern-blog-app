@@ -22,7 +22,7 @@ export const generateResetCode = (): string => {
   return crypto.randomBytes(6).toString('hex').toUpperCase();
 };
 
-// Authorized utitilites
+// Authorization utilities
 export const authorizedUser = (
   userId: string,
   role: string,
