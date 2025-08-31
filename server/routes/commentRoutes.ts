@@ -4,19 +4,19 @@ import {
   getPostComments,
   updateComment,
   deleteComment,
-} from '../controllers/commentController';
+} from '../controllers/commentController.js';
 import {
   validateParams,
   validateQuery,
   validateSchema,
-} from '../middleware/validation';
+} from '../middleware/validation.js';
 import {
   commentCreateSchema,
   commentUpdateSchema,
   paginationSchema,
   postCommentParamsSchema,
-} from '../schemas/validation';
-import { authenticateToken } from '../middleware/auth';
+} from '../schemas/validation.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 

@@ -1,8 +1,8 @@
 // Defining comment controllers
 
 import { Request, Response } from 'express';
-import Comment from '../models/commentSchema';
-import BlogPost from '../models/blogPostSchema';
+import Comment from '../models/commentSchema.js';
+import BlogPost from '../models/blogPostSchema.js';
 import mongoose from 'mongoose';
 
 export const createComment = async (
