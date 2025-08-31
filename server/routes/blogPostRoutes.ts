@@ -12,9 +12,9 @@ import { validateSchema, validateParams } from '../middleware/validation.js';
 import {
   blogPostCreateSchema,
   blogPostUpdateSchema,
-  idParamSchema,
 } from '../schemas/validation.js';
 import { authenticateToken } from '../middleware/auth.js';
+import { idParamSchema } from '../schemas/common.validation.js';
 
 const router = express.Router();
 

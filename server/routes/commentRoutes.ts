@@ -13,10 +13,10 @@ import {
 import {
   commentCreateSchema,
   commentUpdateSchema,
-  paginationSchema,
   postCommentParamsSchema,
 } from '../schemas/validation.js';
 import { authenticateToken } from '../middleware/auth.js';
+import { paginationSchema } from '../schemas/common.validation.js';
 
 const router = express.Router();
 

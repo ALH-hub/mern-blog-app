@@ -6,8 +6,9 @@ import {
   getAllUsers,
 } from '../controllers/userController.js';
 import { validateSchema, validateParams } from '../middleware/validation.js';
-import { userUpdateSchema, idParamSchema } from '../schemas/validation.js';
+import { userUpdateSchema } from '../schemas/auth.validation.js';
 import { authenticateToken, verifyAdmin } from '../middleware/auth.js';
+import { idParamSchema } from '../schemas/common.validation.js';
 
 const router = express.Router();
 

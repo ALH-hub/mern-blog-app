@@ -2,7 +2,7 @@
 
 import { Request, Response } from 'express';
 import User from '../models/userSchema.js';
-import { UserUpdateInput } from '../schemas/validation.js';
+import { UserUpdateInput } from '../schemas/auth.validation.js';
 import { authorizedUser } from '../utils/helpers.js';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {

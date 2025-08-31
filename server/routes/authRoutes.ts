@@ -17,7 +17,7 @@ import {
   PasswordResetRequestSchema,
   userCreateSchema,
   userLoginSchema,
-} from '../schemas/validation.js';
+} from '../schemas/auth.validation.js';
 
 import { validateSchema } from '../middleware/validation.js';
 
