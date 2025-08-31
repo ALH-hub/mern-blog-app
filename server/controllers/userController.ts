@@ -8,7 +8,7 @@ import { authorizedUser } from '../utils/helpers.js';
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {
     // At this point, req.params.id is already validated by Zod middleware
-    const { id } = req.params;
+    const id: string = req.params.id;
 
     const user = await User.findById(id).select('-password').populate('posts');
 
@@ -63,9 +63,9 @@ export const updateUser = async (
 ): Promise<void> => {
   try {
     // Both params and body are validated by Zod middleware
-    const { id } = req.params;
+    const id: string = req.params.id;
     const updateData: UserUpdateInput = req.body;
-    const user = (req as any).user;
+    const user: { userId: string; role: string } = (req as any).user;
 
     if (!authorizedUser(user.userId, user.role, id)) {
       res.status(403).json({
@@ -109,8 +109,8 @@ export const deleteUser = async (
 ): Promise<void> => {
   try {
     // req.params.id is validated by Zod middleware
-    const { id } = req.params;
-    const user = (req as any).user;
+    const id: string = req.params.id;
+    const user: { userId: string; role: string } = (req as any).user;
 
     if (authorizedUser(user.userId, user.role, id)) {
       res.status(403).json({
