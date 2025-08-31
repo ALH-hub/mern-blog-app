@@ -172,7 +172,7 @@ export const updateComment = async (
     const userId = (req as any).user.userId;
 
     const updatedComment = await Comment.findOneAndUpdate(
-      { _id: postId, post: postId, author: userId },
+      { _id: commentId, post: postId, author: userId },
       { content, updatedAt: new Date() },
       { new: true, runValidators: true },
     );
