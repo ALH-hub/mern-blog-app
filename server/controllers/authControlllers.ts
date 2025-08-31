@@ -14,6 +14,7 @@ import {
 import sendPasswordResetEmail from '../utils/emailService.js';
 
 import {
+  PasswordResetConfirmInput,
   PasswordResetRequestInput,
   UserCreateInput,
 } from '../schemas/auth.validation.js';
@@ -226,7 +227,8 @@ export const confirmPasswordReset = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const { email, resetCode, newPassword } = req.body;
+    const { email, resetCode, newPassword }: PasswordResetConfirmInput =
+      req.body;
 
     const passwordResetRecord = await PasswordReset.findOne({
       email,
