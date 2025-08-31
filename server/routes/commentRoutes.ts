@@ -14,7 +14,7 @@ import {
   commentCreateSchema,
   commentUpdateSchema,
   postCommentParamsSchema,
-} from '../schemas/validation.js';
+} from '../schemas/comment.validation.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { paginationSchema } from '../schemas/common.validation.js';
 
