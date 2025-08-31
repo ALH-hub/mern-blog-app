@@ -6,6 +6,7 @@ import BlogPost from '../models/blogPostSchema';
 import mongoose from 'mongoose';
 import { existsSync } from 'fs';
 import { success } from 'zod';
+import { authorizedUser } from '../utils/helpers';
 
 export const createComment = async (
   req: Request,
@@ -194,6 +195,54 @@ export const updateComment = async (
     res.status(500).json({
       success: false,
       message: 'Failed updating comment',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
+
+export const deleteComment = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const { postId, commentId } = req.params;
+    const userId = (req as any).user?.userId;
+    const userRole = (req as any).user?.role;
+
+    const comment = await Comment.findOne({
+      _id: commentId,
+      post: postId,
+    });
+    if (!comment) {
+      res.status(404).json({
+        success: false,
+        message: 'Comment not found',
+      });
+      return;
+    }
+
+    // Authorized user verification
+    if (!authorizedUser(userId, userRole, comment.author.toString())) {
+      res.status(403).json({
+        success: false,
+        message: 'Unauthorized access to this route',
+      });
+      return;
+    }
+
+    await Comment.findByIdAndUpdate(commentId, {
+      isDeleted: true,
+      content: '[Comment deleted]',
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Comment deleted successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed deleting comment',
       error: error instanceof Error ? error.message : 'Unknown error',
     });
   }
