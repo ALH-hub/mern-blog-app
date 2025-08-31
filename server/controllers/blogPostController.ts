@@ -108,7 +108,7 @@ export const updatePost = async (
     );
 
     if (!updatedPost) {
-      res.status(500).json({
+      res.status(404).json({
         success: false,
         message: 'Post not found',
       });

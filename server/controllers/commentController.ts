@@ -4,6 +4,8 @@ import { Request, Response } from 'express';
 import Comment from '../models/commentSchema';
 import BlogPost from '../models/blogPostSchema';
 import mongoose from 'mongoose';
+import { existsSync } from 'fs';
+import { success } from 'zod';
 
 export const createComment = async (
   req: Request,
@@ -155,6 +157,43 @@ export const getPostComments = async (
     res.status(500).json({
       success: false,
       message: 'Error fetching Post comments',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
+
+export const updateComment = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const { postId, commentId } = req.params;
+    const { content } = req.body;
+    const userId = (req as any).user.userId;
+
+    const updatedComment = await Comment.findOneAndUpdate(
+      { _id: postId, post: postId, author: userId },
+      { content, updatedAt: new Date() },
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedComment) {
+      res.status(404).json({
+        success: false,
+        message: 'Comment not found',
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Comment updated successfully',
+      data: updatedComment,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed updating comment',
       error: error instanceof Error ? error.message : 'Unknown error',
     });
   }
