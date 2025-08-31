@@ -103,7 +103,10 @@ export const commentUpdateSchema = z.object({
 
 export const postCommentParamsSchema = z.object({
   postId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalide post ID'),
-  commentId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Ivalid comment ID'),
+  commentId: z
+    .string()
+    .regex(/^[0-9a-fA-F]{24}$/, 'Ivalid comment ID')
+    .optional(),
 });
 
 // Parameter validation schema
