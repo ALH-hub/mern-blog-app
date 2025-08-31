@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import userRouter from './routes/userRoutes.js';
 import postRouter from './routes/blogPostRoutes.js';
 import authRouter from './routes/authRoutes.js';
+import commentRouter from './routes/commentRoutes.js';
 
 await mongoose
   .connect(process.env.MONGODB_URI as string)
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
+app.use('/api/:postId/comments', commentRouter);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log(

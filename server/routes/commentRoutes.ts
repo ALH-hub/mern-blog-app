@@ -18,10 +18,10 @@ import {
 } from '../schemas/validation';
 import { authenticateToken } from '../middleware/auth';
 
-const routes = express.Router();
+const router = express.Router();
 
 // Create comment route
-routes.post(
+router.post(
   '/:postId/comments',
   authenticateToken,
   validateSchema(commentCreateSchema),
@@ -30,7 +30,7 @@ routes.post(
 );
 
 // Get all post omments
-routes.get(
+router.get(
   '/:postId/comments',
   authenticateToken,
   validateParams(postCommentParamsSchema),
@@ -39,7 +39,7 @@ routes.get(
 );
 
 // Update a post comment
-routes.put(
+router.put(
   '/:postId/comments/:commentId',
   authenticateToken,
   validateParams(postCommentParamsSchema),
@@ -48,9 +48,11 @@ routes.put(
 );
 
 // Delete a post comment
-routes.delete(
+router.delete(
   '/:postId/comments/:commentId',
   authenticateToken,
   validateParams(postCommentParamsSchema),
   deleteComment,
 );
+
+export default router;
