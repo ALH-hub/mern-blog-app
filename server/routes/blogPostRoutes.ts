@@ -12,7 +12,7 @@ import { validateSchema, validateParams } from '../middleware/validation.js';
 import {
   blogPostCreateSchema,
   blogPostUpdateSchema,
-} from '../schemas/validation.js';
+} from '../schemas/post.validation.js';
 import { authenticateToken } from '../middleware/auth.js';
 import { idParamSchema } from '../schemas/common.validation.js';
 
