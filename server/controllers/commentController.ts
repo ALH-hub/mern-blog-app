@@ -209,31 +209,33 @@ export const deleteComment = async (
     const userId = (req as any).user?.userId;
     const userRole = (req as any).user?.role;
 
-    const comment = await Comment.findOne({
+    const query: any = {
       _id: commentId,
       post: postId,
-    });
-    if (!comment) {
+    };
+
+    if (userRole !== 'admin') {
+      query.author = userId;
+    }
+
+    const updatedComment = await Comment.findOneAndUpdate(
+      query,
+      {
+        isDeleted: true,
+        content: '[Comment deleted]',
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!updatedComment) {
       res.status(404).json({
         success: false,
-        message: 'Comment not found',
+        message: 'Comment not found or unauthorized',
       });
       return;
     }
-
-    // Authorized user verification
-    if (!authorizedUser(userId, userRole, comment.author.toString())) {
-      res.status(403).json({
-        success: false,
-        message: 'Unauthorized access to this route',
-      });
-      return;
-    }
-
-    await Comment.findByIdAndUpdate(commentId, {
-      isDeleted: true,
-      content: '[Comment deleted]',
-    });
 
     res.status(200).json({
       success: true,
