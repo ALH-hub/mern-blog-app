@@ -16,7 +16,7 @@ import sendPasswordResetEmail from '../utils/emailService.js';
 import {
   PasswordResetRequestInput,
   UserCreateInput,
-} from '../schemas/validation.js';
+} from '../schemas/auth.validation.js';
 
 export const registerUser = async (
   req: Request,
