@@ -3,7 +3,10 @@
 import { Request, Response } from 'express';
 import BlogPost from '../models/blogPostSchema.js';
 import User from '../models/userSchema.js';
-import { BlogPostCreateInput } from '../schemas/post.validation.js';
+import {
+  BlogPostCreateInput,
+  BlogPostUpdateInput,
+} from '../schemas/post.validation.js';
 
 export const createPost = async (
   req: Request,
@@ -12,8 +15,7 @@ export const createPost = async (
   try {
     // At this point, req.body is already validated by Zod middleware
     const { title, content }: BlogPostCreateInput = req.body;
-
-    const { userId } = (req as any).user;
+    const userId: string = (req as any).user.userId;
 
     const existingUser = await User.findOne({ _id: userId });
     if (!existingUser) {
@@ -47,8 +49,7 @@ export const createPost = async (
 
 export const getPost = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Ath this point, req.params.id is already validated by Zod middleware
-    const { id } = req.params;
+    const id: string = req.params.id;
 
     const post = await BlogPost.findById(id);
     if (!post) {
@@ -98,8 +99,8 @@ export const updatePost = async (
 ): Promise<void> => {
   try {
     // Both params and body are validated by Zod middleware
-    const { id } = req.params;
-    const updateData = req.body;
+    const id: string = req.params.id;
+    const updateData: BlogPostUpdateInput = req.body;
 
     const updatedPost = await BlogPost.findOneAndUpdate(
       { _id: id, author: (req as any).user.userId },
@@ -135,8 +136,9 @@ export const deletePost = async (
 ): Promise<void> => {
   try {
     // req.params.id is validated by Zod middleware
-    const { id } = req.params;
-    const { userId, role } = (req as any).user;
+    const id: string = req.params.id;
+    const { userId, role }: { userId: string; role: string } = (req as any)
+      .user;
 
     const query: any = {
       _id: id,

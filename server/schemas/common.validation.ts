@@ -35,3 +35,5 @@ export const fileUploadSchema = z.object({
 });
 
 export type PaginationInput = z.infer<typeof paginationSchema>;
+export type FileUploadInput = z.infer<typeof fileUploadSchema>;
+export type IdParamInput = z.infer<typeof idParamSchema>;
