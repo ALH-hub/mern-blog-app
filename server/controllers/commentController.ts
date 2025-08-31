@@ -4,9 +4,6 @@ import { Request, Response } from 'express';
 import Comment from '../models/commentSchema';
 import BlogPost from '../models/blogPostSchema';
 import mongoose from 'mongoose';
-import { existsSync } from 'fs';
-import { success } from 'zod';
-import { authorizedUser } from '../utils/helpers';
 
 export const createComment = async (
   req: Request,

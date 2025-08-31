@@ -4,7 +4,6 @@ import { Request, Response } from 'express';
 import BlogPost from '../models/blogPostSchema.js';
 import User from '../models/userSchema.js';
 import { BlogPostCreateInput } from '../schemas/validation.js';
-import { authorizedUser } from '../utils/helpers.js';
 
 export const createPost = async (
   req: Request,
@@ -139,26 +138,20 @@ export const deletePost = async (
     const { id } = req.params;
     const { userId, role } = (req as any).user;
 
-    const deletedPost = await BlogPost.findOneAndDelete({
+    const query: any = {
       _id: id,
-      author: userId,
-    });
+    };
+
+    if (role !== 'admin') {
+      query.author = userId;
+    }
+    const deletedPost = await BlogPost.findOneAndDelete(query);
 
     if (!deletedPost) {
-      if (role !== 'admin') {
-        res.status(404).json({
-          success: false,
-          message: 'Post not found',
-        });
-        return;
-      } else {
-        const adminDeletedPost = await BlogPost.findByIdAndDelete(id);
-        res.status(200).json({
-          success: true,
-          message: 'Post deleted successfully by admin',
-          data: { title: adminDeletedPost?.title },
-        });
-      }
+      res.status(404).json({
+        success: false,
+        message: 'Post not found or unauthorized',
+      });
       return;
     }
 
