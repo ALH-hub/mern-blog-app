@@ -4,15 +4,16 @@ import { Request, Response } from 'express';
 import Comment from '../models/commentSchema.js';
 import BlogPost from '../models/blogPostSchema.js';
 import mongoose from 'mongoose';
+import { CommentCreateInput } from '../schemas/comment.validation.js';
 
 export const createComment = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
-    const { postId } = req.params;
-    const { content, parentCommentId } = req.body;
-    const userId = (req as any).user?.userId;
+    const postId: string = req.params.postId;
+    const postCreateData: CommentCreateInput = req.body;
+    const userId: string = (req as any).user?.userId;
 
     const post = await BlogPost.findById(postId);
     if (!post) {
@@ -27,8 +28,8 @@ export const createComment = async (
     let parentComment = null;
 
     // Check if the comment created is a reply
-    if (parentCommentId) {
-      parentComment = await Comment.findById(parentCommentId);
+    if (postCreateData.parentCommentId) {
+      parentComment = await Comment.findById(postCreateData.parentCommentId);
       if (!parentComment) {
         res.status(404).json({
           success: false,
@@ -57,10 +58,10 @@ export const createComment = async (
 
     // Create the comment
     const comment = new Comment({
-      content,
+      content: postCreateData.content,
       author: userId,
       post: postId,
-      parentComment: parentCommentId || null,
+      parentComment: postCreateData.parentCommentId || null,
       depth,
     });
 
@@ -93,8 +94,9 @@ export const getPostComments = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const { postId } = req.params;
-    const { page = 1, limit = 10 } = req.query;
+    const postId: string = req.params.postId;
+    const page: number = req.query.page ? Number(req.query.page) : 1;
+    const limit: number = req.query.limit ? Number(req.query.limit) : 10;
 
     const post = await BlogPost.findById(postId);
     if (!post) {
@@ -165,9 +167,12 @@ export const updateComment = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const { postId, commentId } = req.params;
-    const { content } = req.body;
-    const userId = (req as any).user.userId;
+    const { postId, commentId } = req.params as {
+      postId: string;
+      commentId?: string;
+    };
+    const { content }: { content: string } = req.body;
+    const userId: string = (req as any).user.userId;
 
     const updatedComment = await Comment.findOneAndUpdate(
       { _id: commentId, post: postId, author: userId },
@@ -202,9 +207,12 @@ export const deleteComment = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const { postId, commentId } = req.params;
-    const userId = (req as any).user?.userId;
-    const userRole = (req as any).user?.role;
+    const { postId, commentId } = req.params as {
+      postId: string;
+      commentId?: string;
+    };
+    const userId: string = (req as any).user?.userId;
+    const userRole: string = (req as any).user?.role;
 
     const query: any = {
       _id: commentId,
