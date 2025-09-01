@@ -11,7 +11,7 @@ import {
 import {
   authenticateToken,
   handleValidationErrors,
-} from '../middleware/auth.js';
+} from '../middleware/auth.middleware.js';
 import {
   PasswordResetConfirmSchema,
   PasswordResetRequestSchema,
@@ -19,7 +19,7 @@ import {
   userLoginSchema,
 } from '../schemas/auth.validation.js';
 
-import { validateSchema } from '../middleware/validation.js';
+import { validateSchema } from '../middleware/validateSchema.middleware.js';
 
 const routes = express.Router();
 

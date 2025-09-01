@@ -5,9 +5,15 @@ import {
   deleteUser,
   getAllUsers,
 } from '../controllers/userController.js';
-import { validateSchema, validateParams } from '../middleware/validation.js';
+import {
+  validateSchema,
+  validateParams,
+} from '../middleware/validateSchema.middleware.js';
 import { userUpdateSchema } from '../schemas/auth.validation.js';
-import { authenticateToken, verifyAdmin } from '../middleware/auth.js';
+import {
+  authenticateToken,
+  verifyAdmin,
+} from '../middleware/auth.middleware.js';
 import { idParamSchema } from '../schemas/common.validation.js';
 
 const router = express.Router();

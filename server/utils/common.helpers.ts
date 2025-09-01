@@ -1,9 +1,5 @@
 // Utility functions for common operations
-
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import crypto from 'crypto';
 
 // MongoDB utilities
 export const isValidObjectId = (id: string): boolean => {
@@ -47,13 +43,4 @@ export const generateRandomString = (length: number = 10): string => {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return result;
-};
-
-// Date utilities
-export const formatDate = (date: Date): string => {
-  return date.toISOString().split('T')[0];
-};
-
-export const isExpired = (date: Date): boolean => {
-  return date.getTime() < Date.now();
 };

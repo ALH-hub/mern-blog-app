@@ -9,13 +9,13 @@ import {
   validateParams,
   validateQuery,
   validateSchema,
-} from '../middleware/validation.js';
+} from '../middleware/validateSchema.middleware.js';
 import {
   commentCreateSchema,
   commentUpdateSchema,
   postCommentParamsSchema,
 } from '../schemas/comment.validation.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 import { paginationSchema } from '../schemas/common.validation.js';
 
 const router = express.Router();

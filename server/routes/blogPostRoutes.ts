@@ -8,12 +8,15 @@ import {
   updatePost,
   deletePost,
 } from '../controllers/blogPostController.js';
-import { validateSchema, validateParams } from '../middleware/validation.js';
+import {
+  validateSchema,
+  validateParams,
+} from '../middleware/validateSchema.middleware.js';
 import {
   blogPostCreateSchema,
   blogPostUpdateSchema,
 } from '../schemas/post.validation.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 import { idParamSchema } from '../schemas/common.validation.js';
 
 const router = express.Router();
