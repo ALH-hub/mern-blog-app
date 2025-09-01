@@ -3,7 +3,7 @@
 import { Request, Response } from 'express';
 import User from '../models/userSchema.js';
 import { UserUpdateInput } from '../schemas/auth.validation.js';
-import { authorizedUser } from '../utils/helpers.js';
+import { authorizedUser } from '../utils/auth.helpers.js';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {

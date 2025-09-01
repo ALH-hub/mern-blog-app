@@ -5,7 +5,7 @@ import { body, validationResult } from 'express-validator';
 import mongoose from 'mongoose';
 import tokenBlacklist from '../models/tokenBlacklistSchema.js';
 import User, { UserRole } from '../models/userSchema.js';
-import { verifyToken } from '../utils/helpers.js';
+import { verifyToken } from '../utils/auth.helpers.js';
 
 // Authentication middleware
 export const authenticateToken = async (

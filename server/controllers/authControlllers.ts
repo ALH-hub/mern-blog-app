@@ -10,7 +10,7 @@ import {
   generateToken,
   hashPassword,
   generateResetCode,
-} from '../utils/helpers.js';
+} from '../utils/auth.helpers.js';
 import sendPasswordResetEmail from '../utils/emailService.js';
 
 import {
