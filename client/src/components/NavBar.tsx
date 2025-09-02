@@ -6,7 +6,9 @@ function NavBar() {
 
   return (
     <div
-      className={`bg-gray-800 text-white p-4 flex items-center justify-between fixed w-full`}
+      className={
+        'bg-gray-800 text-white p-4 flex items-center justify-center gap-32 fixed w-full'
+      }
     >
       <div className='flex items-center'>
         <img src='icon.png' alt='NexusBlog Icon' className='h-10' />
@@ -18,16 +20,22 @@ function NavBar() {
           NexusBlog
         </h1>
       </div>
-      <div></div>
+      <div className='flex gap-6 text-lg'>
+        <button>Home</button>
+        <button>Discover</button>
+        <button>Categories</button>
+        <button>About</button>
+        <button>Contact</button>
+      </div>
       <div className='flex items-center gap-3'>
         <button
           onClick={toggleDarkMode}
-          className='ml-4 p-2 rounded-full transparent text-white'
+          className='rounded-full transparent text-white'
         >
           <i
             className={`fas ${
               isDarkMode
-                ? 'fa-sun text-yellow-400 text-2xl'
+                ? 'fa-sun text-yellow-400 text-xl'
                 : 'fa-moon text-gray-400 text-2xl'
             }`}
           ></i>
