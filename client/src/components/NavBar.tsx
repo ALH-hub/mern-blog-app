@@ -27,8 +27,8 @@ function NavBar() {
           <i
             className={`fas ${
               isDarkMode
-                ? 'fa-sun text-yellow-400 text-4xl'
-                : 'fa-moon text-gray-400 text-4xl'
+                ? 'fa-sun text-yellow-400 text-2xl'
+                : 'fa-moon text-gray-400 text-2xl'
             }`}
           ></i>
         </button>
