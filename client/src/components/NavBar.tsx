@@ -30,12 +30,12 @@ function NavBar() {
       <div className='flex items-center gap-3'>
         <button
           onClick={toggleDarkMode}
-          className='rounded-full transparent text-white'
+          className='p-4 rounded-full transparent text-white'
         >
           <i
             className={`fas ${
               isDarkMode
-                ? 'fa-sun text-yellow-400 text-xl'
+                ? 'fa-sun text-yellow-400 text-2xl'
                 : 'fa-moon text-gray-400 text-2xl'
             }`}
           ></i>
