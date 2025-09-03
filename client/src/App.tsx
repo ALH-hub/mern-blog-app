@@ -5,8 +5,17 @@ import Home from './pages/Home.tsx';
 function App() {
   return (
     <div className='bg-gray-100'>
-      <NavBar />
-      <Home />
+      <header>
+        <NavBar />
+      </header>
+      <main>
+        <Home />
+      </main>
+      <footer>
+        <p className='text-center py-4'>
+          © 2023 NexusBlog. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
