@@ -1,4 +1,5 @@
 import './App.css';
+import Footer from './components/Footer.tsx';
 import NavBar from './components/NavBar.tsx';
 import Home from './pages/Home.tsx';
 
@@ -12,9 +13,7 @@ function App() {
         <Home />
       </main>
       <footer>
-        <p className='text-center py-4'>
-          © 2023 NexusBlog. All rights reserved.
-        </p>
+        <Footer />
       </footer>
     </div>
   );
