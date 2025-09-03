@@ -6,21 +6,19 @@ function NavBar() {
 
   return (
     <div
-      className={
-        'bg-gray-800 text-white p-4 flex items-center justify-center gap-32 fixed w-full'
-      }
+      className={` text-white p-2 flex items-center justify-center gap-32 fixed w-full ${
+        isDarkMode ? 'bg-gray-800' : 'bg-white'
+      }`}
     >
       <div className='flex items-center'>
         <img src='icon.png' alt='NexusBlog Icon' className='h-10' />
-        <h1
-          className={`text-lg font-bold ${
-            isDarkMode ? 'dark:text-blue-500' : 'text-white'
-          }`}
-        >
-          NexusBlog
-        </h1>
+        <h1 className={`text-2xl font-bold text-[#544cdb]`}>NexusBlog</h1>
       </div>
-      <div className='flex gap-6 text-lg'>
+      <div
+        className={`flex gap-6 text-lg ${
+          isDarkMode ? 'text-gray-300' : 'text-gray-700'
+        }`}
+      >
         <button>Home</button>
         <button>Discover</button>
         <button>Categories</button>
