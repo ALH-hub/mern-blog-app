@@ -4,7 +4,7 @@ import Home from './pages/Home.tsx';
 
 function App() {
   return (
-    <div>
+    <div className='bg-gray-100'>
       <NavBar />
       <Home />
     </div>

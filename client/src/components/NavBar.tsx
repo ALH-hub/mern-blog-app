@@ -6,13 +6,13 @@ function NavBar() {
 
   return (
     <div
-      className={` text-white p-2 flex items-center justify-center gap-32 fixed w-full ${
+      className={` text-white p-4 flex items-center justify-center gap-16 fixed w-full border-b-2 ${
         isDarkMode ? 'bg-gray-800' : 'bg-white'
       }`}
     >
       <div className='flex items-center'>
-        <img src='icon.png' alt='NexusBlog Icon' className='h-10' />
-        <h1 className={`text-2xl font-bold text-[#544cdb]`}>NexusBlog</h1>
+        <img src='icon.png' alt='NexusBlog Icon' className='h-12' />
+        <h1 className={`text-3xl font-bold text-[#544cdb]`}>NexusBlog</h1>
       </div>
       <div
         className={`flex gap-6 text-lg ${
