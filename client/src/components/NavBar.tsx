@@ -6,7 +6,7 @@ function NavBar() {
 
   return (
     <div
-      className={` text-white py-4 px-6 flex items-center justify-center gap-16 w-full border-b-4 ${
+      className={` text-white py-4 px-6 flex items-center justify-center gap-16 w-full fixed  shadow-sm ${
         isDarkMode ? 'bg-gray-800' : 'bg-white'
       }`}
     >
