@@ -6,7 +6,7 @@ function NavBar() {
 
   return (
     <div
-      className={` text-white p-4 flex items-center justify-center gap-16 fixed w-full border-b-2 ${
+      className={` text-white py-4 px-6 flex items-center justify-center gap-16 w-full border-b-4 ${
         isDarkMode ? 'bg-gray-800' : 'bg-white'
       }`}
     >
@@ -28,13 +28,13 @@ function NavBar() {
       <div className='flex items-center gap-3'>
         <button
           onClick={toggleDarkMode}
-          className='p-4 rounded-full transparent text-white'
+          className='p-2 rounded-full transparent text-white'
         >
           <i
             className={`fas ${
               isDarkMode
                 ? 'fa-sun text-yellow-400 text-2xl'
-                : 'fa-moon text-gray-400 text-2xl'
+                : 'fa-moon text-gray-500 text-2xl'
             }`}
           ></i>
         </button>
