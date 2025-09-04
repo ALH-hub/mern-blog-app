@@ -22,112 +22,138 @@ function Home() {
           </Button>
         </div>
       </div>
-      <div className=' px-2 py-8 mt-6 flex justify-center align-items  w-full max-w-6xl'>
-        <div>
-          <h2 className='text-4xl font-bold text-left tracking-tighter'>
-            Featured Articles
-          </h2>
-          <hr className='w-16 border-2 border-[#544cdb]' />
-          <div className=' w-full grid grid-cols-1 md:grid-cols-3 gap-8 mt-4'>
-            <div className='border rounded border-gray-300 rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
-              <div className='overflow-hidden relative h-48'>
+      <div className=' px-2 py-8 mt-10 flex justify-center flex-col align-items  w-full max-w-6xl'>
+        <h2 className='text-4xl font-semibold text-left tracking-tighter'>
+          Featured Articles
+        </h2>
+        <hr className='w-16 border-2 border-[#544cdb]' />
+        <div className=' w-full grid grid-cols-1 md:grid-cols-3 gap-8 mt-20'>
+          <div className='hover:shadow-lg rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
+            <div className='overflow-hidden relative h-48'>
+              <img
+                src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
+                alt=''
+                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+              />
+            </div>
+            <div className='p-2 flex gap-4'>
+              <span>category here</span>
+              <span>Reading time</span>
+            </div>
+            <div className='p-2 flex flex-col gap-2'>
+              <h3 className='text-xl font-semibold'>
+                Article Title here and its incredibly long
+              </h3>
+              <p className='text-gray-600'>
+                Brief description of the article. Lorem ipsum dolor sit, amet
+                consectetur adipisicing elit. Laudantium, sapiente!
+              </p>
+            </div>
+            <div className='flex p-2 justify-between items-center gap-2'>
+              <div className='flex items-center gap-2 '>
                 <img
                   src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
                   alt=''
-                  className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+                  className='w-12 h-12 object-cover rounded-full'
                 />
+                <span className='text-gray-600'>Author Name</span>
               </div>
-              <div className='p-2 flex gap-4'>
-                <span>category here</span>
-                <span>Reading time</span>
-              </div>
-              <div className='p-2 flex flex-col gap-2'>
-                <h3 className='text-xl font-semibold'>
-                  Article Title here and its incredibly long
-                </h3>
-                <p className='text-gray-600'>
-                  Brief description of the article. Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Laudantium, sapiente!
-                </p>
-              </div>
-              <div className='flex p-2 justify-between items-center gap-2'>
-                <div className='flex items-center gap-2 '>
-                  <img
-                    src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                    alt=''
-                    className='w-12 h-12 object-cover rounded-full'
-                  />
-                  <span className='text-gray-600'>Author Name</span>
-                </div>
-                <span>date published</span>
-              </div>
+              <span>date published</span>
             </div>
-            <div className='border rounded border-gray-300 rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
-              <div className='overflow-hidden relative h-48'>
+          </div>
+          <div className='hover:shadow-lg rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
+            <div className='overflow-hidden relative h-48'>
+              <img
+                src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
+                alt=''
+                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+              />
+            </div>
+            <div className='p-2 flex gap-4'>
+              <span>category here</span>
+              <span>Reading time</span>
+            </div>
+            <div className='p-2 flex flex-col gap-2'>
+              <h3 className='text-xl font-semibold'>
+                Article Title here and its incredibly long
+              </h3>
+              <p className='text-gray-600'>
+                Brief description of the article. Lorem ipsum dolor sit, amet
+                consectetur adipisicing elit. Laudantium, sapiente!
+              </p>
+            </div>
+            <div className='flex p-2 justify-between items-center gap-2'>
+              <div className='flex items-center gap-2 '>
                 <img
                   src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
                   alt=''
-                  className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+                  className='w-12 h-12 object-cover rounded-full'
                 />
+                <span className='text-gray-600'>Author Name</span>
               </div>
-              <div className='p-2 flex gap-4'>
-                <span>category here</span>
-                <span>Reading time</span>
-              </div>
-              <div className='p-2 flex flex-col gap-2'>
-                <h3 className='text-xl font-semibold'>
-                  Article Title here and its incredibly long
-                </h3>
-                <p className='text-gray-600'>
-                  Brief description of the article. Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Laudantium, sapiente!
-                </p>
-              </div>
-              <div className='flex p-2 justify-between items-center gap-2'>
-                <div className='flex items-center gap-2 '>
-                  <img
-                    src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                    alt=''
-                    className='w-12 h-12 object-cover rounded-full'
-                  />
-                  <span className='text-gray-600'>Author Name</span>
-                </div>
-                <span>date published</span>
-              </div>
+              <span>date published</span>
             </div>
-            <div className='border rounded border-gray-300 rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
-              <div className='overflow-hidden relative h-48'>
+          </div>
+          <div className='hover:shadow-lg rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
+            <div className='overflow-hidden relative h-48'>
+              <img
+                src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
+                alt=''
+                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+              />
+            </div>
+            <div className='p-2 flex gap-4'>
+              <span>category here</span>
+              <span>Reading time</span>
+            </div>
+            <div className='p-2 flex flex-col gap-2'>
+              <h3 className='text-xl font-semibold'>
+                Article Title here and its incredibly long
+              </h3>
+              <p className='text-gray-600'>
+                Brief description of the article. Lorem ipsum dolor sit, amet
+                consectetur adipisicing elit. Laudantium, sapiente!
+              </p>
+            </div>
+            <div className='flex p-2 justify-between items-center gap-2'>
+              <div className='flex items-center gap-2 '>
                 <img
                   src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
                   alt=''
-                  className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+                  className='w-12 h-12 object-cover rounded-full'
                 />
+                <span className='text-gray-600'>Author Name</span>
               </div>
-              <div className='p-2 flex gap-4'>
-                <span>category here</span>
-                <span>Reading time</span>
-              </div>
-              <div className='p-2 flex flex-col gap-2'>
-                <h3 className='text-xl font-semibold'>
-                  Article Title here and its incredibly long
-                </h3>
-                <p className='text-gray-600'>
-                  Brief description of the article. Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Laudantium, sapiente!
-                </p>
-              </div>
-              <div className='flex p-2 justify-between items-center gap-2'>
-                <div className='flex items-center gap-2 '>
-                  <img
-                    src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                    alt=''
-                    className='w-12 h-12 object-cover rounded-full'
-                  />
-                  <span className='text-gray-600'>Author Name</span>
-                </div>
-                <span>date published</span>
-              </div>
+              <span>date published</span>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className=' mt-10 px-2 py-8 flex justify-center flex-col align-items  w-full max-w-6xl'>
+        <h3 className='text-4xl font-semibold text-left tracking-tighter'>
+          Explore Categories
+        </h3>
+        <hr className='w-16 border-2 border-[#544cdb]' />
+        <div className='w-full grid grid-cols-2 md:grid-cols-4 gap-8 mt-20'>
+          <div className='bg-white p-4 rounded-lg flex flex-col align-center gap-2 justify-center text-center'>
+            <i className='fas fa-laptop-code text-6xl text-[#544cdb]'></i>
+            <h3 className='text-xl font-semibold'>Technology</h3>
+            <span>article numbers</span>
+          </div>
+          <div className='bg-white p-4 rounded-lg'>
+            <i className='fas fa-heartbeat text-6xl text-[#544cdb]'></i>
+            <h3 className='text-xl font-semibold'>Health and Wellness</h3>
+            <span>article numbers</span>
+          </div>
+          <div className='bg-white p-4 rounded-lg'>
+            <i className='fas fa-globe text-6xl text-[#544cdb]'></i>
+            <h3 className='text-xl font-semibold'>Lifestyle</h3>
+            <span>article numbers</span>
+          </div>
+          <div className='bg-white p-4 rounded-lg'>
+            <i className='fas fa-briefcase text-6xl text-[#544cdb]'></i>
+            <h3 className='text-xl font-semibold'>Business</h3>
+            <span>article numbers</span>
           </div>
         </div>
       </div>
