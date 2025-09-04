@@ -99,7 +99,7 @@ function Home() {
               <img
                 src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
                 alt=''
-                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out '
               />
             </div>
             <div className='p-2 flex gap-4'>
@@ -135,25 +135,33 @@ function Home() {
         </h3>
         <hr className='w-16 border-2 border-[#544cdb]' />
         <div className='w-full grid grid-cols-2 md:grid-cols-4 gap-8 mt-20'>
-          <div className='bg-white p-4 rounded-lg flex flex-col align-center gap-2 justify-center text-center'>
-            <i className='fas fa-laptop-code text-6xl text-[#544cdb]'></i>
+          <div className='bg-white p-4 rounded-lg flex flex-col items-center gap-4 hover:shadow-lg cursor-pointer'>
+            <i className='fas fa-laptop-code text-5xl text-[#544cdb] '></i>
             <h3 className='text-xl font-semibold'>Technology</h3>
-            <span>article numbers</span>
+            <span className='text-gray-600 tracking-tighter text-sm'>
+              article numbers
+            </span>
           </div>
-          <div className='bg-white p-4 rounded-lg'>
-            <i className='fas fa-heartbeat text-6xl text-[#544cdb]'></i>
+          <div className='bg-white p-4 rounded-lg flex flex-col items-center gap-4 hover:shadow-lg cursor-pointer'>
+            <i className='fas fa-heartbeat text-5xl text-[#544cdb]'></i>
             <h3 className='text-xl font-semibold'>Health and Wellness</h3>
-            <span>article numbers</span>
+            <span className='text-gray-600 tracking-tighter text-sm'>
+              article numbers
+            </span>
           </div>
-          <div className='bg-white p-4 rounded-lg'>
-            <i className='fas fa-globe text-6xl text-[#544cdb]'></i>
+          <div className='bg-white p-4 rounded-lg flex flex-col items-center gap-4 hover:shadow-lg cursor-pointer'>
+            <i className='fas fa-globe text-5xl text-[#544cdb]'></i>
             <h3 className='text-xl font-semibold'>Lifestyle</h3>
-            <span>article numbers</span>
+            <span className='text-gray-600 tracking-tighter text-sm'>
+              article numbers
+            </span>
           </div>
-          <div className='bg-white p-4 rounded-lg'>
-            <i className='fas fa-briefcase text-6xl text-[#544cdb]'></i>
+          <div className='bg-white p-4 rounded-lg flex flex-col items-center gap-4 hover:shadow-lg cursor-pointer'>
+            <i className='fas fa-briefcase text-5xl text-[#544cdb]'></i>
             <h3 className='text-xl font-semibold'>Business</h3>
-            <span>article numbers</span>
+            <span className='text-gray-600 tracking-tighter text-sm'>
+              article numbers
+            </span>
           </div>
         </div>
       </div>
