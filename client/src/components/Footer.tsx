@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <div
       className={`bg-gray-800 py-4 ${
-        isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'
+        isDarkMode ? 'bg-white text-gray-800 ' : 'bg-gray-800 text-white '
       }`}
     >
       <div></div>
