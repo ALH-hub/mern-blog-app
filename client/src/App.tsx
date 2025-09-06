@@ -7,7 +7,7 @@ import useThemeStore from './stores/themeStore.ts';
 function App() {
   const { isDarkMode } = useThemeStore();
   return (
-    <div className={isDarkMode ? 'bg-[#111e2a] text-gray-600' : 'bg-gray-200'}>
+    <div className={isDarkMode ? 'bg-[#111e2a] text-white' : 'bg-gray-200'}>
       <header>
         <NavBar />
       </header>
