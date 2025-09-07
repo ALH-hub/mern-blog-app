@@ -15,7 +15,7 @@ function NavBar() {
         <h1 className={`text-3xl font-bold text-[#544cdb]`}>NexusBlog</h1>
       </div>
       <div
-        className={`flex gap-6 text-lg ${
+        className={`flex gap-6 text-lg font-medium ${
           isDarkMode ? 'text-gray-300' : 'text-gray-700'
         }`}
       >
