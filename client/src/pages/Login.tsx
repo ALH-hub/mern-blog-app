@@ -1,5 +1,44 @@
+import { Link } from 'react-router';
+import Button from '../common/Button';
+
 const Login = () => {
-  return <div>login here</div>;
+  return (
+    <div className='  w-full h-[500px] max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
+      <div className='flex justify-between items-center w-full'>
+        <img className='w-70 h-42' src='/logo.png' alt='Logo image' />
+        <h1 className='text-3xl font-bold text-[#1d4ed8]'>Login</h1>
+      </div>
+      <div className='flex flex-col items-center justify-center  gap-8'>
+        <form className='w-full flex flex-col gap-6'>
+          <input
+            required
+            type='email'
+            placeholder='Email'
+            className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+          />
+          <input
+            required
+            type='password'
+            placeholder='Password'
+            className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+          />
+          <Button
+            onClick={() => console.log('Login form submitted')}
+            variant='primary'
+            className='w-full mt-4 text-center'
+          >
+            <span className='w-full text-center'>Login</span>
+          </Button>
+        </form>
+        <div className='mt-4 text-sm text-gray-600'>
+          Don't have an account?{' '}
+          <Link to='/auth/register' className='text-blue-600 hover:underline'>
+            Register here
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;

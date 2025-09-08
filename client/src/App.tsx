@@ -32,7 +32,7 @@ const AuthLayout = () => {
   const { isDarkMode } = useThemeStore();
   return (
     <div className={isDarkMode ? 'bg-[#111e2a] text-white' : 'bg-gray-200'}>
-      <div className='w-full max-w-md mx-auto p-4'>
+      <div className='w-full max-w-[600px] mx-auto h-screen flex items-center justify-center'>
         <Outlet />
       </div>
     </div>
