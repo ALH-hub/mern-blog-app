@@ -3,13 +3,19 @@ import Button from '../common/Button';
 
 const Register = () => {
   return (
-    <div className='  w-full h-[500px] max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
-      <div className='flex justify-between items-center w-full'>
+    <div className='  w-full max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
+      <Link to='/' className='flex justify-between items-center w-full'>
         <img className='w-70 h-42' src='/logo.png' alt='Logo image' />
         <h1 className='text-3xl font-bold text-[#1d4ed8]'>Login</h1>
-      </div>
+      </Link>
       <div className='flex flex-col items-center justify-center  gap-8'>
         <form className='w-full flex flex-col gap-6'>
+          <input
+            required
+            type='text'
+            placeholder='Username with no spaces'
+            className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+          />
           <input
             required
             type='email'
@@ -20,6 +26,12 @@ const Register = () => {
             required
             type='password'
             placeholder='Password'
+            className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+          />
+          <input
+            required
+            type='password'
+            placeholder='Confirm Password'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
           />
           <Button

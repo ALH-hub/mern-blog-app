@@ -3,7 +3,7 @@ import Button from '../common/Button';
 
 const Login = () => {
   return (
-    <div className='  w-full h-[500px] max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
+    <div className='  w-full max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
       <div className='flex justify-between items-center w-full'>
         <img className='w-70 h-42' src='/logo.png' alt='Logo image' />
         <h1 className='text-3xl font-bold text-[#1d4ed8]'>Login</h1>
