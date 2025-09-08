@@ -6,6 +6,8 @@ import Categories from './pages/Categories.tsx';
 import Contact from './pages/Contact.tsx';
 import Discover from './pages/Discover.tsx';
 import Home from './pages/Home.tsx';
+import Login from './pages/Login.tsx';
+import Register from './pages/Register.tsx';
 import useThemeStore from './stores/themeStore.ts';
 import { Outlet, createBrowserRouter, RouterProvider } from 'react-router';
 
@@ -26,10 +28,22 @@ const Layout = () => {
   );
 };
 
+const AuthLayout = () => {
+  const { isDarkMode } = useThemeStore();
+  return (
+    <div className={isDarkMode ? 'bg-[#111e2a] text-white' : 'bg-gray-200'}>
+      <div className='w-full max-w-md mx-auto p-4'>
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    // errorElement: <div>404 Not Found</div>,
     children: [
       {
         index: true,
@@ -55,6 +69,21 @@ const router = createBrowserRouter([
       //   path: '/404',
       //   element: <NotFound />,
       // },
+    ],
+  },
+
+  {
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
     ],
   },
 ]);
