@@ -7,6 +7,7 @@ import {
   logoutUser,
   requestPasswordReset,
   confirmPasswordReset,
+  getUserProfile,
 } from '../controllers/authControlllers.js';
 import {
   authenticateToken,
@@ -41,6 +42,9 @@ routes.post(
 
 // Logout from your account route
 routes.post('/logout', authenticateToken, logoutUser);
+
+// Get user profile
+routes.get('/me', authenticateToken, getUserProfile);
 
 // Request for password reset route
 routes.post(

@@ -18,6 +18,7 @@ import {
   PasswordResetRequestInput,
   UserCreateInput,
 } from '../schemas/auth.validation.js';
+import { request } from 'http';
 
 export const registerUser = async (
   req: Request,
@@ -171,6 +172,39 @@ export const logoutUser = async (
     res.status(500).json({
       success: false,
       message: 'Error logging out user',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+};
+
+export const getUserProfile = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const userId = (req as any).user.userId;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+      return;
+    }
+
+    // Remove password from user object
+    const { password, ...userProfile } = user.toObject();
+
+    res.status(200).json({
+      success: true,
+      message: 'User profile retrieved successfully',
+      data: userProfile,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error retrieving user profile',
       error: error instanceof Error ? error.message : 'Unknown error',
     });
   }
