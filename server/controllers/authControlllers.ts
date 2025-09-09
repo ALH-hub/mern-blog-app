@@ -193,6 +193,15 @@ export const getUserProfile = async (
       return;
     }
 
+    // Verify authenticity of the concerned user
+    if (userId !== (user._id as string)) {
+      res.status(403).json({
+        success: false,
+        message: 'User not authorized to access this profile',
+      });
+      return;
+    }
+
     // Remove password from user object
     const { password, ...userProfile } = user.toObject();
 
