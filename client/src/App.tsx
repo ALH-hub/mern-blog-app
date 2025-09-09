@@ -7,6 +7,7 @@ import Contact from './pages/Contact.tsx';
 import Discover from './pages/Discover.tsx';
 import Home from './pages/Home.tsx';
 import Login from './pages/Login.tsx';
+import NotFound from './pages/NotFound.tsx';
 import Register from './pages/Register.tsx';
 import useThemeStore from './stores/themeStore.ts';
 import { Outlet, createBrowserRouter, RouterProvider } from 'react-router';
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    // errorElement: <div>404 Not Found</div>,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -65,10 +66,6 @@ const router = createBrowserRouter([
         path: '/discover',
         element: <Discover />,
       },
-      // {
-      //   path: '/404',
-      //   element: <NotFound />,
-      // },
     ],
   },
 
