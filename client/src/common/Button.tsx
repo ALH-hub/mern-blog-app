@@ -2,9 +2,11 @@ import React from 'react';
 
 type ButtonProps = {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   variant?: 'primary' | 'outline';
+  type?: 'submit' | 'reset' | 'button' | undefined;
+  disabled?: boolean;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,6 +14,8 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   className = '',
   variant = 'primary',
+  type = 'button',
+  disabled = false,
 }) => {
   const baseClasses =
     'px-6 py-3 border-2 border-[#7c7dbd] rounded-lg font-semibold transition-all no-underline inline-flex items-center gap-2 duration-200 ease-in-out hover:scale-105 active:scale-95';
@@ -26,6 +30,8 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+      type={type}
+      disabled={disabled}
     >
       {children}
     </button>
