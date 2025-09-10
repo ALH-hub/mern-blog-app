@@ -41,6 +41,7 @@ const useAuthStore = create<AuthState>()(
           const { token, user } = response.data.data;
 
           Cookies.set('token', token, { expires: 7 });
+          localStorage.setItem('user', JSON.stringify(user));
           set({ user, isLoading: false, isAuthenticated: true });
         } catch (error: unknown) {
           set({
@@ -68,6 +69,7 @@ const useAuthStore = create<AuthState>()(
           const { token, user } = response.data.data;
 
           Cookies.set('token', token, { expires: 7 });
+          localStorage.setItem('user', JSON.stringify(user));
           set({ user, isLoading: false, isAuthenticated: true });
         } catch (error: unknown) {
           set({
