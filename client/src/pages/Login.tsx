@@ -56,7 +56,19 @@ const Login = () => {
             id='password'
             type='password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onInput={(e) => {
+              const target = e.target as HTMLInputElement;
+              if (target.value.length < 8) {
+                target.setCustomValidity(
+                  'Password must be at least 8 characters long',
+                );
+              } else {
+                target.setCustomValidity('');
+              }
+            }}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             placeholder='Enter your password'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
             required

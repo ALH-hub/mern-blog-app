@@ -105,8 +105,8 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Check password
-    const isMatch = comparePassword(password, user.password);
-    if (!isMatch) {
+    const isMatch = await comparePassword(password, user.password);
+    if (isMatch === false) {
       res.status(400).json({
         success: false,
         message: 'Invalid email or password',
