@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import api from '../utils/api';
+import Cookies from 'js-cookie';
 
 interface User {
   id: string;
@@ -17,7 +18,6 @@ interface RegisterData {
 
 interface AuthState {
   user: User | null;
-  token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -40,12 +40,11 @@ const useAuthStore = create<AuthState>()(
           const response = await api.post('/auth/login', { email, password });
           const { token, user } = response.data.data;
 
-          localStorage.setItem('token', token);
-          set({ user, token, isLoading: false, isAuthenticated: true });
+          Cookies.set('token', token, { expires: 7 });
+          set({ user, isLoading: false, isAuthenticated: true });
         } catch (error: unknown) {
           set({
             user: null,
-            token: null,
             isLoading: false,
             isAuthenticated: false,
           });
@@ -68,12 +67,11 @@ const useAuthStore = create<AuthState>()(
 
           const { token, user } = response.data.data;
 
-          localStorage.setItem('token', token);
-          set({ user, token, isLoading: false, isAuthenticated: true });
+          Cookies.set('token', token, { expires: 7 });
+          set({ user, isLoading: false, isAuthenticated: true });
         } catch (error: unknown) {
           set({
             user: null,
-            token: null,
             isLoading: false,
             isAuthenticated: false,
           });
@@ -97,18 +95,17 @@ const useAuthStore = create<AuthState>()(
         } catch (error: unknown) {
           console.error('Logout error:', error);
         } finally {
-          localStorage.removeItem('token');
+          Cookies.remove('token');
           localStorage.removeItem('user');
           set({
             user: null,
-            token: null,
             isAuthenticated: false,
           });
         }
       },
 
       checkAuth: async () => {
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
         if (!token) {
           set({ isAuthenticated: false });
           return;
@@ -120,15 +117,13 @@ const useAuthStore = create<AuthState>()(
 
           set({
             user,
-            token,
             isAuthenticated: true,
           });
         } catch (error: unknown) {
-          localStorage.removeItem('token');
+          Cookies.remove('token');
           localStorage.removeItem('user');
           set({
             user: null,
-            token: null,
             isAuthenticated: false,
           });
 
@@ -148,7 +143,6 @@ const useAuthStore = create<AuthState>()(
       name: 'auth-storage',
       partialize: (state) => ({
         user: state.user,
-        token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
     },
