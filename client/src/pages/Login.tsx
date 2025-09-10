@@ -69,12 +69,12 @@ const Login = () => {
           >
             {isLoading ? (
               <div className='mx-auto'>
-                <i className='fas fa-spinner fa-spin mr-2'></i>
+                <i className='fas fa-spinner fa-spin mr-2 text-white'></i>
                 <span>Signing in...</span>
               </div>
             ) : (
               <div className='mx-auto'>
-                <i className='fas fa-sign-in-alt mr-2'></i>
+                <i className='fas fa-sign-in-alt mr-2 text-white'></i>
                 <span>Login</span>
               </div>
             )}

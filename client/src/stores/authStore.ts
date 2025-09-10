@@ -38,11 +38,14 @@ const useAuthStore = create<AuthState>()(
         set({ isLoading: true });
         try {
           const response = await api.post('/auth/login', { email, password });
-          const { token, user } = response.data.data;
+          const { token, ...user } = response.data.data;
+          console.log('user from login:', user);
 
           Cookies.set('token', token, { expires: 7 });
           localStorage.setItem('user', JSON.stringify(user));
           set({ user, isLoading: false, isAuthenticated: true });
+          // i want to simulate a delay for testing loading state
+          await new Promise((resolve) => setTimeout(resolve, 100));
         } catch (error: unknown) {
           set({
             user: null,
