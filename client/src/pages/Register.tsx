@@ -1,7 +1,33 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Button from '../common/Button';
+import React, { useEffect, useState } from 'react';
+import useAuthStore from '../stores/authStore';
 
 const Register = () => {
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [verifyPassword, setVerifyPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const { register, isLoading } = useAuthStore();
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('')
+
+    try {
+      await(register({}))
+    }
+  }
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
   return (
     <div className='  w-full max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
       <div className='flex justify-between items-center w-full'>
@@ -13,28 +39,46 @@ const Register = () => {
       <div className='flex flex-col items-center justify-center  gap-8'>
         <form className='w-full flex flex-col gap-6'>
           <input
-            required
+            id='username'
+            value={username}
             type='text'
             placeholder='Username with no spaces'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+            onChange={(e) => {
+              setUsername(e.target.value.replace(' ', '_'));
+            }}
+            required
           />
           <input
-            required
+            id='email'
+            value={email}
             type='email'
             placeholder='Email'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
-            required
+            id='password'
             type='password'
             placeholder='Password'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <input
-            required
+            id='vpassword'
             type='password'
             placeholder='Confirm Password'
+            onInput={(e) => {
+              const target = e.target as HTMLInputElement;
+              if (password !== verifyPassword) {
+                target.setCustomValidity('Password confirmation failed');
+              }
+            }}
+            onChange={(e) => setVerifyPassword(e.target.value)}
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+            required
           />
           <Button
             onClick={() => console.log('Login form submitted')}
