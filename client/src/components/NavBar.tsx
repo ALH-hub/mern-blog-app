@@ -2,9 +2,15 @@ import { Link } from 'react-router';
 import Button from '../common/Button';
 import useThemeStore from '../stores/themeStore';
 import { useNavigate } from 'react-router';
+import useAuthStore from '../stores/authStore';
 
 function NavBar() {
   const { isDarkMode, toggleDarkMode } = useThemeStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+  };
   const navigate = useNavigate();
 
   return (
@@ -41,14 +47,35 @@ function NavBar() {
             }`}
           ></i>
         </button>
-        <Button onClick={() => navigate('/auth/login')} variant='outline'>
-          <i className='fas fa-right-to-bracket'></i>
-          <span>Login</span>
-        </Button>
-        <Button onClick={() => navigate('/auth/register')} variant='primary'>
-          <i className='fas fa-user-plus'></i>
-          <span>Sign Up</span>
-        </Button>
+        {isAuthenticated ? (
+          <>
+            <Button onClick={handleLogout} variant='outline'>
+              <i className='fas fa-sign-out-alt'></i>
+              <span>Logout</span>
+            </Button>
+            <span
+              className={`text-sm text-black ml-2 ${
+                isDarkMode ? 'text-white' : ''
+              }`}
+            >
+              Welcome, {user?.username.split('_')[0]}!
+            </span>
+          </>
+        ) : (
+          <>
+            <Button onClick={() => navigate('/auth/login')} variant='outline'>
+              <i className='fas fa-right-to-bracket'></i>
+              <span>Login</span>
+            </Button>
+            <Button
+              onClick={() => navigate('/auth/register')}
+              variant='primary'
+            >
+              <i className='fas fa-user-plus'></i>
+              <span>Sign Up</span>
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
