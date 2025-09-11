@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import './App.css';
 import Footer from './components/Footer.tsx';
 import NavBar from './components/NavBar.tsx';
@@ -11,6 +12,7 @@ import NotFound from './pages/NotFound.tsx';
 import Register from './pages/Register.tsx';
 import useThemeStore from './stores/themeStore.ts';
 import { Outlet, createBrowserRouter, RouterProvider } from 'react-router';
+import useAuthStore from './stores/authStore.ts';
 
 const Layout = () => {
   const { isDarkMode } = useThemeStore();
@@ -86,6 +88,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { checkAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   return (
     <div>
       <RouterProvider router={router} />
