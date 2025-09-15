@@ -27,6 +27,7 @@ export const registerUser = async (
   try {
     // At this point, req.body is already validated by Zod middleware
     const { username, email, password, role }: UserCreateInput = req.body;
+    console.log(req.body);
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
