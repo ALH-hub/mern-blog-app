@@ -4,27 +4,38 @@ import React, { useEffect, useState } from 'react';
 import useAuthStore from '../stores/authStore';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [userData, setUserData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
   const [verifyPassword, setVerifyPassword] = useState('');
   const [error, setError] = useState('');
 
   const { register, isLoading } = useAuthStore();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('')
+    setError('');
 
     try {
-      await(register({}))
+      await register(userData);
+      navigate('/');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log(error, 'from handlesubmit');
+        setError(error.message);
+      } else {
+        console.log(error, 'from the else of handlesubmit');
+        setError('Error trying to register');
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      console.log(error);
     }
   }, [error]);
 
@@ -37,55 +48,77 @@ const Register = () => {
         <h1 className='text-3xl font-bold text-[#1d4ed8]'>Registration</h1>
       </div>
       <div className='flex flex-col items-center justify-center  gap-8'>
-        <form className='w-full flex flex-col gap-6'>
+        <form className='w-full flex flex-col gap-6' onSubmit={handleSubmit}>
           <input
             id='username'
-            value={username}
+            value={userData.username}
             type='text'
             placeholder='Username with no spaces'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
             onChange={(e) => {
-              setUsername(e.target.value.replace(' ', '_'));
+              setUserData({
+                ...userData,
+                username: e.target.value.replace(' ', '_'),
+              });
             }}
             required
           />
           <input
             id='email'
-            value={email}
+            value={userData.email}
             type='email'
             placeholder='Email'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              setUserData({ ...userData, email: e.target.value })
+            }
             required
           />
           <input
             id='password'
             type='password'
             placeholder='Password'
+            value={userData.password}
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setUserData({ ...userData, password: e.target.value })
+            }
             required
           />
           <input
             id='vpassword'
             type='password'
             placeholder='Confirm Password'
+            value={verifyPassword}
             onInput={(e) => {
+              console.log(verifyPassword === userData.password);
               const target = e.target as HTMLInputElement;
-              if (password !== verifyPassword) {
-                target.setCustomValidity('Password confirmation failed');
+              console.log(userData.password, target.value);
+              if (userData.password !== target.value) {
+                // target.setCustomValidity('Passwords do not match');
               }
             }}
             onChange={(e) => setVerifyPassword(e.target.value)}
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
             required
           />
+
           <Button
-            onClick={() => console.log('Login form submitted')}
+            type='submit'
             variant='primary'
-            className='w-full mt-4 text-center'
+            className='w-full mt-4 text-center items-center'
+            disabled={isLoading}
           >
-            <span className='w-full text-center'>Register</span>
+            {isLoading ? (
+              <div className='mx-auto'>
+                <i className='fas fa-spinner fa-spin mr-2 text-white'></i>
+              </div>
+            ) : (
+              <div className='mx-auto'>
+                <i className='fas fa-user-plus mr-2 text-white'></i>
+                <span>Register</span>
+              </div>
+            )}
           </Button>
         </form>
         <div className='mt-4 text-sm text-gray-600'>
