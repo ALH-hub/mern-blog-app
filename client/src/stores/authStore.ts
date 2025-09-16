@@ -82,13 +82,13 @@ const useAuthStore = create<AuthState>()(
             isLoading: false,
             isAuthenticated: false,
           });
-          console.error('Registration error:', error);
           if (
             typeof error === 'object' &&
             error !== null &&
             'response' in error
           ) {
             const err = error as { response?: { data?: { message?: string } } };
+
             throw new Error(
               err.response?.data?.message || 'Registration failed',
             );

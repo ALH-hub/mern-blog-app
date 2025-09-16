@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router';
 import Button from '../common/Button';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useAuthStore from '../stores/authStore';
+import Popup from '../components/Popup';
 
 const Register = () => {
   const [userData, setUserData] = useState({
@@ -11,6 +12,7 @@ const Register = () => {
   });
   const [verifyPassword, setVerifyPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   const { register, isLoading } = useAuthStore();
   const navigate = useNavigate();
@@ -24,20 +26,21 @@ const Register = () => {
       navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(error, 'from handlesubmit');
+        console.log(error);
         setError(error.message);
+        setShowPopup(true);
       } else {
-        console.log(error, 'from the else of handlesubmit');
         setError('Error trying to register');
+        setShowPopup(true);
       }
     }
   };
 
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  // }, [error]);
 
   return (
     <div className='  w-full max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
@@ -128,6 +131,9 @@ const Register = () => {
           </Link>
         </div>
       </div>
+      {showPopup && error && (
+        <Popup message={error} onClose={() => setShowPopup(false)} />
+      )}
     </div>
   );
 };
