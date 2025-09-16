@@ -24,6 +24,8 @@ const Register = () => {
     try {
       await register(userData);
       navigate('/');
+      setShowPopup(true);
+      await new Promise((resolve) => setTimeout(resolve, 2500));
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log(error);
@@ -132,7 +134,19 @@ const Register = () => {
         </div>
       </div>
       {showPopup && error && (
-        <Popup message={error} onClose={() => setShowPopup(false)} />
+        <Popup
+          message={error}
+          onClose={() => setShowPopup(false)}
+          duration={2000}
+        />
+      )}
+      {showPopup && !error && (
+        <Popup
+          message={'Registered successfully!'}
+          type='success'
+          onClose={() => setShowPopup(false)}
+          duration={2000}
+        />
       )}
     </div>
   );

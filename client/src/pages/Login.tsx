@@ -1,12 +1,14 @@
 import { Link, useNavigate } from 'react-router';
 import Button from '../common/Button';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useAuthStore from '../stores/authStore';
+import Popup from '../components/Popup';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   const { login, isLoading } = useAuthStore();
   const navigate = useNavigate();
@@ -17,21 +19,26 @@ const Login = () => {
 
     try {
       await login(email, password);
+      setShowPopup(true);
+      await new Promise((resolve) => setTimeout(resolve, 2500));
       navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
+        setShowPopup(true);
       } else {
         setError('Error trying to login');
+        setShowPopup(true);
       }
     }
   };
 
-  useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     console.log(error);
+  //     setShowPopup(true);
+  //   }
+  // }, [error]);
 
   return (
     <div className='  w-full max-h-screen px-8 pb-8 rounded-lg shadow-lg gap-16 bg-white'>
@@ -98,6 +105,24 @@ const Login = () => {
           </Link>
         </div>
       </div>
+      {showPopup && error && (
+        <Popup
+          message={error}
+          type='error'
+          onClose={() => setShowPopup(false)}
+          autoClose={true}
+          duration={2000}
+        />
+      )}
+      {showPopup && !error && (
+        <Popup
+          message={'Logged in successfully!'}
+          type='success'
+          onClose={() => setShowPopup(false)}
+          autoClose={true}
+          duration={2000}
+        />
+      )}
     </div>
   );
 };
