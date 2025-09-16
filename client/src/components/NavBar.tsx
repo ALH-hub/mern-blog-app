@@ -58,7 +58,7 @@ function NavBar() {
                 isDarkMode ? 'text-white' : ''
               }`}
             >
-              Welcome, {user?.username.split('_')[0]}!
+              Welcome, {user?.username}!
             </span>
           </>
         ) : (

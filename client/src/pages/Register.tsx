@@ -23,9 +23,9 @@ const Register = () => {
 
     try {
       await register(userData);
-      navigate('/');
       setShowPopup(true);
       await new Promise((resolve) => setTimeout(resolve, 2500));
+      navigate('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log(error);
