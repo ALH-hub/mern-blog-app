@@ -74,6 +74,8 @@ const useAuthStore = create<AuthState>()(
           Cookies.set('token', token, { expires: 7 });
           localStorage.setItem('user', JSON.stringify(user));
           set({ user, isLoading: false, isAuthenticated: true });
+          // i want to simulate a delay for testing loading state
+          await new Promise((resolve) => setTimeout(resolve, 100));
         } catch (error: unknown) {
           set({
             user: null,
