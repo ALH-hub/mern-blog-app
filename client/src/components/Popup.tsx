@@ -1,4 +1,3 @@
-// components/Popup.tsx
 import React, { useEffect } from 'react';
 
 interface PopupProps {
@@ -14,9 +13,8 @@ const Popup: React.FC<PopupProps> = ({
   type = 'error',
   onClose,
   autoClose = true,
-  duration = 4000,
+  duration = 2000,
 }) => {
-  // Auto close functionality
   useEffect(() => {
     if (autoClose) {
       const timer = setTimeout(() => {
@@ -26,7 +24,6 @@ const Popup: React.FC<PopupProps> = ({
     }
   }, [autoClose, duration, onClose]);
 
-  // Get icon and colors based on type
   const getTypeStyles = () => {
     switch (type) {
       case 'success':
@@ -64,40 +61,31 @@ const Popup: React.FC<PopupProps> = ({
   const styles = getTypeStyles();
 
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4 backdrop-blur-sm'>
-      {/* Popup Container with Animation */}
+    <div className='fixed bottom-6 left-2/3  z-50 p-0'>
       <div
         className={`
-        ${styles.bg} border-2 ${styles.bg.split(' ')[1]}
-        p-6 rounded-2xl shadow-2xl max-w-md w-full
-        transform transition-all duration-300 ease-out
-        animate-bounce-in relative
-      `}
+          ${styles.bg} border-2 ${styles.bg.split(' ')[1]}
+          p-6 rounded-2xl shadow-2xl max-w-md w-full
+          transform transition-all duration-300 ease-out
+          animate-bounce-in relative
+        `}
       >
-        {/* Close Button */}
-        <button
+        {/* <button
           onClick={onClose}
           className='absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors'
           aria-label='Close'
         >
           <i className='fas fa-times text-lg'></i>
-        </button>
-
-        {/* Content */}
+        </button> */}
         <div className='flex items-start space-x-4'>
-          {/* Icon */}
           <div className='flex-shrink-0'>
             <i className={`fas ${styles.icon} text-2xl`}></i>
           </div>
-
-          {/* Message */}
           <div className='flex-1 pt-1'>
             <p className={`${styles.text} font-medium text-sm leading-relaxed`}>
               {message}
             </p>
-
-            {/* Action Button */}
-            <div className='mt-4 flex justify-end space-x-3'>
+            {/* <div className='mt-4 flex justify-end space-x-3'>
               <button
                 onClick={onClose}
                 className='px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors'
@@ -115,11 +103,9 @@ const Popup: React.FC<PopupProps> = ({
               >
                 OK
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
-
-        {/* Progress Bar (for auto-close) */}
         {autoClose && (
           <div className='absolute bottom-0 left-0 w-full h-1 bg-gray-200 rounded-b-2xl overflow-hidden'>
             <div
