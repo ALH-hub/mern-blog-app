@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import Button from '../common/Button';
 
 function Home() {
@@ -12,14 +13,18 @@ function Home() {
           readers
         </p>
         <div className='flex gap-2'>
-          <Button onClick={() => {}}>
-            <i className='fas fa-pencil-alt'></i>
-            <span>Start Writing</span>
-          </Button>
-          <Button onClick={() => {}} variant='outline'>
-            <i className='fas fa-compass'></i>
-            <span>Explore Content</span>
-          </Button>
+          <Link to='/create-post'>
+            <Button variant='primary'>
+              <i className='fas fa-pencil-alt'></i>
+              <span>Start Writing</span>
+            </Button>
+          </Link>
+          <Link to='/explore-content'>
+            <Button variant='outline'>
+              <i className='fas fa-compass'></i>
+              <span>Explore Content</span>
+            </Button>
+          </Link>
         </div>
       </div>
       <div className=' px-2 py-8 mt-10 flex justify-center flex-col align-items  w-full max-w-6xl'>

@@ -4,6 +4,7 @@ import NavBar from './components/NavBar.tsx';
 import About from './pages/About.tsx';
 import Categories from './pages/Categories.tsx';
 import Contact from './pages/Contact.tsx';
+import CreatePost from './pages/CreatePost.tsx';
 import Discover from './pages/Discover.tsx';
 import Home from './pages/Home.tsx';
 import Login from './pages/Login.tsx';
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: '/discover',
         element: <Discover />,
+      },
+      {
+        path: '/create-post',
+        element: <CreatePost />,
       },
     ],
   },
