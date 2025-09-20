@@ -13,7 +13,7 @@ function Home() {
           readers
         </p>
         <div className='flex gap-2'>
-          <Link to='/create-post'>
+          <Link to='/createpost'>
             <Button variant='primary'>
               <i className='fas fa-pencil-alt'></i>
               <span>Start Writing</span>
