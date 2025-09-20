@@ -52,23 +52,23 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/about',
+        path: 'about',
         element: <About />,
       },
       {
-        path: '/categories',
+        path: 'categories',
         element: <Categories />,
       },
       {
-        path: '/contact',
+        path: 'contact',
         element: <Contact />,
       },
       {
-        path: '/discover',
+        path: 'discover',
         element: <Discover />,
       },
       {
-        path: '/create-post',
+        path: 'createpost',
         element: <CreatePost />,
       },
     ],
