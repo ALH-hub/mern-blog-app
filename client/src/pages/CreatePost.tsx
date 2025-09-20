@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 const CreatePost = () => {
   const editor = useRef(null);
   const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
 
   const config = useMemo(
     () => ({
@@ -54,7 +55,8 @@ const CreatePost = () => {
   useEffect(() => {
     // This will log the content whenever it changes
     console.log('Editor content:', content);
-  }, [content]);
+    console.log('Title:', title);
+  }, [content, title]);
 
   return (
     <div className='pt-32 mx-auto max-w-7xl px-7 flex gap-4 z-0 justify-center pb-10'>
@@ -65,6 +67,7 @@ const CreatePost = () => {
             type='text'
             placeholder='Post Title'
             className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className='mb-6'>
