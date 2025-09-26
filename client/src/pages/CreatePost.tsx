@@ -11,6 +11,7 @@ const CreatePost = () => {
   const config = useMemo(
     () => ({
       readonly: false,
+      maxWidth: 800,
       minHeight: 500,
       placeholder: 'Start typing your post content here...',
       uploader: {
@@ -59,7 +60,7 @@ const CreatePost = () => {
   }, [content, title]);
 
   return (
-    <div className='pt-32 mx-auto max-w-7xl px-7 flex gap-4 z-0 justify-center pb-10'>
+    <div className='pt-32 mx-auto max-w-6xl px-6 flex gap-4 z-0 justify-center pb-10'>
       <div className='flex-3'>
         <h1 className='text-3xl font-bold mb-6'>Create Post</h1>
         <div className='mb-4'>
