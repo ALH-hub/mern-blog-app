@@ -1,7 +1,20 @@
 import { Link } from 'react-router';
 import Button from '../common/Button';
+import useAuthStore from '../stores/authStore';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
 function Home() {
+  const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'NexusBlog - Home';
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <div className='flex flex-col items-center justify-center pt-32'>
       <div className='p-6 flex items-center justify-center flex-col gap-10 w-full'>
@@ -13,12 +26,21 @@ function Home() {
           readers
         </p>
         <div className='flex gap-2'>
-          <Link to='/createpost'>
-            <Button variant='primary'>
-              <i className='fas fa-pencil-alt'></i>
-              <span>Start Writing</span>
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <Link to='/createpost'>
+              <Button variant='primary'>
+                <i className='fas fa-plus'></i>
+                <span>Create Post</span>
+              </Button>
+            </Link>
+          ) : (
+            <Link to='/auth/l﻿ogin'>
+              <Button variant='primary'>
+                <i className='fas fa-sign-in-alt'></i>
+                <span>Get Started</span>
+              </Button>
+            </Link>
+          )}
           <Link to='/explore-content'>
             <Button variant='outline'>
               <i className='fas fa-compass'></i>
