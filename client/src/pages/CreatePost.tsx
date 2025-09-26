@@ -11,8 +11,8 @@ const CreatePost = () => {
   const config = useMemo(
     () => ({
       readonly: false,
-      maxWidth: 800,
-      minHeight: 500,
+      maxWidth: 900,
+      minHeight: 700,
       placeholder: 'Start typing your post content here...',
       uploader: {
         insertImageAsBase64URI: true,
@@ -60,9 +60,10 @@ const CreatePost = () => {
   }, [content, title]);
 
   return (
-    <div className='pt-32 mx-auto max-w-6xl px-6 flex gap-4 z-0 justify-center pb-10'>
-      <div className='flex-3'>
-        <h1 className='text-3xl font-bold mb-6'>Create Post</h1>
+    <div className='pt-32 mx-auto max-w-6xl px-2 sm:px-6 flex flex-col lg:flex-row gap-4 z-0 justify-center pb-10'>
+      {/* Editor and Title */}
+      <div className='flex-4 w-full lg:max-w-[800px]'>
+        <h1 className='text-2xl sm:text-3xl font-bold mb-6'>Create Post</h1>
         <div className='mb-4'>
           <input
             type='text'
@@ -80,41 +81,33 @@ const CreatePost = () => {
           />
         </div>
       </div>
-      <div>
-        <div className='flex-1 gap-4 flex flex-col'>
-          <h2 className='text-2xl font-semibold mt-10 mb-4 tracking-tighter'>
-            Select Category
-          </h2>
-          <div className='grid grid-cols-2 md:grid-cols-2 gap-2'>
-            {[
-              'Technology',
-              'Health',
-              'Travel',
-              'Food',
-              'Lifestyle',
-              'Finance',
-              'Education',
-              'Entertainment',
-            ].map((category) => (
-              <div>
-                <input
-                  key={category}
-                  value={category}
-                  id={category}
-                  type='radio'
-                  className='px-4 mr-2 py-2 border border-gray-300 rounded-lg hover:bg-[#544cdb] hover:text-white transition'
-                />
-                {category}
-              </div>
-            ))}
-          </div>
-          <Link to='/'>
-            <Button variant='primary'>
-              <i className='fas fa-paper-plane'></i>
-              <span>Publish Post</span>
-            </Button>
-          </Link>
+      {/* Sidebar */}
+      <div className='flex flex-col flex-1 w-full lg:w-auto gap-4'>
+        <h2 className='text-xl sm:text-2xl font-semibold mt-10 mb-4 tracking-tighter'>
+          Select Category
+        </h2>
+        <select className='p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'>
+          <option value='technology'>Technology</option>
+          <option value='lifestyle'>Lifestyle</option>
+          <option value='travel'>Travel</option>
+          <option value='food'>Food</option>
+          <option value='education'>Education</option>
+          <option value='health'>Health</option>
+          <option value='finance'>Finance</option>
+          <option value='entertainment'>Entertainment</option>
+        </select>
+        <h2 className='text-xl sm:text-2xl font-semibold mt-10 mb-4 tracking-tighter'>
+          Publish
+        </h2>
+        <div className='text-sm text-gray-600'>
+          Once you publish, your post will be live on the platform.
         </div>
+        <Link to='/'>
+          <Button variant='primary'>
+            <i className='fas fa-paper-plane'></i>
+            <span>Publish Post</span>
+          </Button>
+        </Link>
       </div>
     </div>
   );
