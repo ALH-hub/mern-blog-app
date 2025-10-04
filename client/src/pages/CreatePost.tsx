@@ -18,9 +18,9 @@ const CreatePost = () => {
       maxWidth: 900,
       minHeight: 700,
       placeholder: 'Start typing your post content here...',
-      uploader: {
-        insertImageAsBase64URI: true,
-      },
+      // uploader: {
+      //   insertImageAsBase64URI: true,
+      // },
       buttons: [
         'bold',
         'italic',
@@ -38,9 +38,9 @@ const CreatePost = () => {
         'brush',
         'paragraph',
         '|',
-        'image',
-        'video',
-        'link',
+        // 'image',
+        // 'video',
+        // 'link',
         '|',
         'align',
         'undo',
