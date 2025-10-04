@@ -64,9 +64,38 @@ const Discover = () => {
             'Learn how to set up a React project with TypeScript and best practices for type safety.',
           category: 'Technology',
           author: { _id: '1', name: 'John Doe' },
-          image: 'https://via.placeholder.com/400x200',
+          image:
+            'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+
           createdAt: '2024-01-15T10:00:00Z',
           readingTime: 5,
+        },
+        {
+          _id: '2',
+          title: '10 Tips for a Healthy Lifestyle',
+          content: 'Full content here...',
+          excerpt:
+            'Discover practical tips to maintain a healthy lifestyle and improve your well-being.',
+          category: 'Health and Wellness',
+          author: { _id: '2', name: 'Jane Smith' },
+          image:
+            'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+          createdAt: '2024-01-16T10:00:00Z',
+          readingTime: 4,
+        },
+
+        {
+          _id: '3',
+          title: 'Exploring the World: Top Travel Destinations for 2024',
+          content: 'Full content here...',
+          excerpt:
+            'Discover the most exciting travel destinations for 2024 and plan your next adventure.',
+          category: 'Travel',
+          author: { _id: '3', name: 'Alice Johnson' },
+          image:
+            'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+          createdAt: '2024-01-17T10:00:00Z',
+          readingTime: 6,
         },
         // Add more mock posts...
       ]);
