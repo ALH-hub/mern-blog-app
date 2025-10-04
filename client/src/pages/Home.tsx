@@ -34,7 +34,7 @@ function Home() {
               </Button>
             </Link>
           ) : (
-            <Link to='/auth/l﻿ogin'>
+            <Link to='/auth/login'>
               <Button variant='primary'>
                 <i className='fas fa-sign-in-alt'></i>
                 <span>Get Started</span>
