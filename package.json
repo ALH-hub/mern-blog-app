@@ -15,6 +15,7 @@
     "clean": "rm -rf node_modules && cd server && rm -rf node_modules && cd ../client && rm -rf node_modules"
   },
   "devDependencies": {
+    "@types/wicg-file-system-access": "^2023.10.7",
     "concurrently": "^8.2.2"
   },
   "keywords": [

@@ -1,16 +1,22 @@
 import { useState, useRef, useMemo, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
-import Button from '../common/Button';
+import Button from '../common/Button.js';
 import { Link } from 'react-router';
-import api from '../utils/api';
+import api from '../utils/api.js';
+import uploadFileToLocalDirectory from '../utils/local-image-upload.js';
 
 const CreatePost = () => {
   const editor = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [post, setPost] = useState({
     title: '',
     content: '',
     category: '',
+    coverImage: '',
   });
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const [isDragging, setIsDragging] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const config = useMemo(
     () => ({
@@ -57,6 +63,84 @@ const CreatePost = () => {
     [],
   );
 
+  const handleImageUpload = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      // 10MB limit
+      alert('Image size should be less than 10MB');
+      return;
+    }
+
+    setUploadingImage(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      // // Upload to your server - adjust endpoint as needed
+      // const response = await api.post('/upload/cover-image', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
+
+      const { success, fileName } = await uploadFileToLocalDirectory(file);
+      if (success) {
+        const imageUrl = `/uploads/${fileName}`;
+        setPost({ ...post, coverImage: imageUrl });
+      }
+
+      console.log({ success, fileName, coverImage: post.coverImage });
+      setImagePreview(URL.createObjectURL(file));
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      // Fallback to local preview for development
+      const localUrl = URL.createObjectURL(file);
+      setImagePreview(localUrl);
+      setPost({ ...post, coverImage: localUrl });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageUpload(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      handleImageUpload(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview('');
+    setPost({ ...post, coverImage: '' });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handlePublish = () => {
     api
       .post('/posts', post)
@@ -81,6 +165,67 @@ const CreatePost = () => {
       {/* Editor and Title */}
       <div className='flex-4 w-full lg:max-w-[800px]'>
         <h1 className='text-2xl sm:text-3xl font-bold mb-6'>Create Post</h1>
+
+        {/* Cover Image Upload */}
+        <div className='mb-6'>
+          <label className='block text-sm font-medium text-gray-700 mb-2'>
+            Cover Image
+          </label>
+
+          {imagePreview ? (
+            <div className='relative'>
+              <img
+                src={imagePreview}
+                alt='Cover preview'
+                className='w-full h-64 object-cover rounded-lg border border-gray-300'
+              />
+              <button
+                onClick={removeImage}
+                className='absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-colors'
+              >
+                <i className='fas fa-times'></i>
+              </button>
+            </div>
+          ) : (
+            <div
+              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                isDragging
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {uploadingImage ? (
+                <div className='flex flex-col items-center'>
+                  <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-2'></div>
+                  <p className='text-gray-600'>Uploading image...</p>
+                </div>
+              ) : (
+                <div className='flex flex-col items-center'>
+                  <i className='fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4'></i>
+                  <p className='text-gray-600 mb-2'>
+                    Drag & drop an image here, or click to select
+                  </p>
+                  <p className='text-sm text-gray-500'>
+                    PNG, JPG, GIF up to 5MB
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          <input
+            ref={fileInputRef}
+            type='file'
+            accept='image/*'
+            onChange={handleFileSelect}
+            className='hidden'
+          />
+        </div>
+
         <div className='mb-4'>
           <input
             type='text'
@@ -99,6 +244,7 @@ const CreatePost = () => {
           />
         </div>
       </div>
+
       {/* Sidebar */}
       <div className='flex flex-col flex-1 w-full lg:w-auto gap-4'>
         <h2 className='text-xl sm:text-2xl font-semibold mt-10 mb-4 tracking-tighter'>
