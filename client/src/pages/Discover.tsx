@@ -137,6 +137,9 @@ const Discover = () => {
                   handleSearch((e.target as HTMLInputElement).value);
                 }
               }}
+              onInput={(e) => {
+                handleSearch((e.target as HTMLInputElement).value);
+              }}
               className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#544cdb] focus:border-transparent outline-none'
             />
           </div>

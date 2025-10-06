@@ -90,6 +90,7 @@ export const getAllPosts = async (
     if (category && category !== 'All') {
       queries.category = category;
     }
+
     if (search) {
       queries.$or = [
         { title: { $regex: search, $options: 'i' } },
