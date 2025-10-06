@@ -4,7 +4,7 @@ const Footer = () => {
   const { isDarkMode } = useThemeStore();
   return (
     <div
-      className={`bg-gray-800 w-full flex flex-col justify-center items-center py-8 mt-16 ${
+      className={`bg-gray-800 w-full flex flex-col justify-center items-center py-8 mt-4 ${
         isDarkMode ? 'bg-white text-gray-800 ' : 'bg-gray-800 text-white '
       }`}
     >

@@ -9,6 +9,7 @@ import Discover from './pages/Discover.tsx';
 import Home from './pages/Home.tsx';
 import Login from './pages/Login.tsx';
 import NotFound from './pages/NotFound.tsx';
+import PostDetail from './pages/PostDetail.tsx';
 import Register from './pages/Register.tsx';
 import useThemeStore from './stores/themeStore.ts';
 import { Outlet, createBrowserRouter, RouterProvider } from 'react-router';
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: 'discover',
         element: <Discover />,
+      },
+      {
+        path: 'post/:id',
+        element: <PostDetail />,
       },
       {
         path: 'createpost',

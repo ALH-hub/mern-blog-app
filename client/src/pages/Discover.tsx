@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Button from '../common/Button';
 import api from '../utils/api';
+import { useNavigate } from 'react-router';
 
 interface Post {
   _id: string;
@@ -36,6 +37,7 @@ const Discover = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = 'NexusBlog - Discover';
@@ -152,7 +154,7 @@ const Discover = () => {
   };
 
   return (
-    <div className='pt-24 pb-10'>
+    <div className='pt-24 pb-10 min-h-216'>
       <div className='max-w-6xl mx-auto px-4'>
         {/* Header */}
         <div className='mb-8'>
@@ -166,7 +168,6 @@ const Discover = () => {
             Explore our collection of articles across various topics
           </p>
         </div>
-
         {/* Search and Filters */}
         <div className='mb-8 space-y-6'>
           {/* Search Bar */}
@@ -244,6 +245,7 @@ const Discover = () => {
               <article
                 key={post._id}
                 className='hover:shadow-lg rounded-lg bg-white overflow-hidden group cursor-pointer flex flex-col transition-shadow duration-300'
+                onClick={() => navigate(`/post/${post._id}`)}
               >
                 {/* Post Image */}
                 <div className='overflow-hidden relative h-48'>
