@@ -36,8 +36,6 @@ const Discover = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
   const navigate = useNavigate();
 
@@ -66,7 +64,6 @@ const Discover = () => {
   };
 
   const handleCategoryFilter = (category: string) => {
-    setSelectedCategory(category);
     updateURL({ category: category === 'All' ? '' : category, page: 1 });
   };
 
@@ -77,6 +74,10 @@ const Discover = () => {
 
   const handlePageChange = (page: number) => {
     updateURL({ page });
+  };
+
+  const handleSearch = (searchTerm: string) => {
+    updateURL({ search: searchTerm, page: 1 });
   };
 
   useEffect(() => {
@@ -129,9 +130,13 @@ const Discover = () => {
             </div>
             <input
               type='text'
-              placeholder='Search articles by title, content, or author...'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder='Search articles by title, content, or author... and press Enter'
+              defaultValue={currentQuery.search || ''}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch((e.target as HTMLInputElement).value);
+                }
+              }}
               className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#544cdb] focus:border-transparent outline-none'
             />
           </div>
@@ -141,18 +146,18 @@ const Discover = () => {
             {/* Category Filters */}
             <div className='flex flex-wrap gap-2'>
               {categories.map((category) => (
-                <button
+                <option
                   key={category}
-                  value={currentQuery.category || 'All'}
+                  defaultValue={currentQuery.category || 'All'}
                   onClick={(e) => handleCategoryFilter(e.currentTarget.value)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    selectedCategory === category
+                    currentQuery.category === category
                       ? 'bg-[#544cdb] text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
                   {category}
-                </button>
+                </option>
               ))}
             </div>
 

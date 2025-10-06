@@ -82,10 +82,53 @@ export const getAllPosts = async (
 ): Promise<void> => {
   try {
     // Fetch all the posts
-    const posts = await BlogPost.find().populate('author', 'username email');
+    const queries: any = {};
+    const { category, search, sort, author } = req.query;
+
+    console.log(req.query);
+
+    if (category && category !== 'All') {
+      queries.category = category;
+    }
+    if (search) {
+      queries.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { content: { $regex: search, $options: 'i' } },
+      ];
+    }
+    if (author) {
+      queries.author = author;
+    }
+
+    let sortOption: any = { createdAt: -1 }; // Default to newest first
+    if (sort === 'oldest') {
+      sortOption = { createdAt: 1 };
+    } else if (sort === 'title') {
+      sortOption = { title: 1 };
+    }
+
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+
+    const queriedPosts = await BlogPost.find(queries)
+      .populate('author', 'username email')
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limit);
+
+    const totalPosts = await BlogPost.countDocuments(queries);
+    const totalPages = Math.ceil(totalPosts / limit);
+
     res.status(200).json({
       success: true,
-      data: posts,
+      data: queriedPosts,
+      meta: {
+        totalPosts,
+        totalPages,
+        currentPage: page,
+        pageSize: limit,
+      },
     });
   } catch (error) {
     res.status(500).json({
