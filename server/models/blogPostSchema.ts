@@ -18,6 +18,9 @@ interface IBlogPost extends mongoose.Document {
   author: mongoose.Types.ObjectId;
   coverImage?: string;
   category: Category;
+  readingTime: number;
+  likes: number;
+  views: number;
   comments: mongoose.Types.ObjectId[];
   commentCount: number;
   createdAt: Date;
@@ -42,6 +45,9 @@ const BlogPostSchema = new mongoose.Schema(
       enum: Object.values(Category),
       required: true,
     },
+    readingTime: { type: Number, required: true, default: 1 },
+    likes: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,

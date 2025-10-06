@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router';
 import Button from '../common/Button';
 import useAuthStore from '../stores/authStore';
+import postService from '../services/postService';
 
 interface Post {
   _id: string;
   title: string;
   content: string;
-  excerpt: string;
   category: string;
   coverImage: string;
   author: {
     _id: string;
-    name: string;
+    username: string;
     avatar?: string;
     bio?: string;
   };
@@ -21,7 +21,6 @@ interface Post {
   readingTime: number;
   likes: number;
   views: number;
-  tags: string[];
 }
 
 const PostDetail = () => {
@@ -33,76 +32,77 @@ const PostDetail = () => {
   const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
 
   useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        // Replace with actual API call
+        const response = await postService.getPostById(id!);
+        setPost(response.data.data);
+        console.log(response.data.data);
+
+        // Mock data for development
+        // setPost({
+        //   _id: '1',
+        //   title: 'Building Modern Web Applications with React and TypeScript',
+        //   content: `
+        //     <p>React and TypeScript have become the gold standard for building modern, scalable web applications. In this comprehensive guide, we'll explore how to leverage these powerful technologies to create robust applications that can grow with your business needs.</p>
+
+        //     <h2>Why React and TypeScript?</h2>
+        //     <p>React's component-based architecture provides excellent code reusability and maintainability, while TypeScript adds static type checking that catches errors during development rather than in production.</p>
+
+        //     <h3>Key Benefits:</h3>
+        //     <ul>
+        //       <li><strong>Type Safety:</strong> Catch errors early in the development process</li>
+        //       <li><strong>Better Developer Experience:</strong> Enhanced IDE support with autocomplete and refactoring</li>
+        //       <li><strong>Scalability:</strong> Large codebases become more manageable</li>
+        //       <li><strong>Team Productivity:</strong> Clear contracts between components</li>
+        //     </ul>
+
+        //     <h2>Getting Started</h2>
+        //     <p>Setting up a new React TypeScript project is straightforward with modern tooling. Tools like Vite and Create React App provide excellent starter templates.</p>
+
+        //     <pre><code>npm create vite@latest my-app -- --template react-ts</code></pre>
+
+        //     <p>This command creates a new React application with TypeScript configured and ready to go. The template includes all the necessary configurations for a modern development workflow.</p>
+
+        //     <h2>Best Practices</h2>
+        //     <p>When working with React and TypeScript, following established patterns and best practices is crucial for long-term success.</p>
+        //   `,
+        //   excerpt:
+        //     'Learn how to build modern, scalable web applications using React and TypeScript with best practices and real-world examples.',
+        //   category: 'Technology',
+        //   coverImage:
+        //     'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+        //   author: {
+        //     _id: '1',
+        //     name: 'Sarah Johnson',
+        //     avatar:
+        //       'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
+        //     bio: 'Senior Frontend Developer with 8+ years of experience in React ecosystem. Passionate about building scalable web applications.',
+        //   },
+        //   createdAt: '2024-01-15T10:00:00Z',
+        //   updatedAt: '2024-01-15T10:00:00Z',
+        //   readingTime: 8,
+        //   likes: 156,
+        //   views: 2341,
+        //   tags: [
+        //     'React',
+        //     'TypeScript',
+        //     'Frontend',
+        //     'JavaScript',
+        //     'Web Development',
+        //   ],
+        // });
+      } catch (error) {
+        console.error('Error fetching post:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchPost();
     fetchRelatedPosts();
   }, [id]);
-
-  const fetchPost = async () => {
-    try {
-      setLoading(true);
-      // Replace with actual API call
-      // const response = await postService.getPostById(id!);
-      // setPost(response.data);
-
-      // Mock data for development
-      setPost({
-        _id: '1',
-        title: 'Building Modern Web Applications with React and TypeScript',
-        content: `
-          <p>React and TypeScript have become the gold standard for building modern, scalable web applications. In this comprehensive guide, we'll explore how to leverage these powerful technologies to create robust applications that can grow with your business needs.</p>
-
-          <h2>Why React and TypeScript?</h2>
-          <p>React's component-based architecture provides excellent code reusability and maintainability, while TypeScript adds static type checking that catches errors during development rather than in production.</p>
-
-          <h3>Key Benefits:</h3>
-          <ul>
-            <li><strong>Type Safety:</strong> Catch errors early in the development process</li>
-            <li><strong>Better Developer Experience:</strong> Enhanced IDE support with autocomplete and refactoring</li>
-            <li><strong>Scalability:</strong> Large codebases become more manageable</li>
-            <li><strong>Team Productivity:</strong> Clear contracts between components</li>
-          </ul>
-
-          <h2>Getting Started</h2>
-          <p>Setting up a new React TypeScript project is straightforward with modern tooling. Tools like Vite and Create React App provide excellent starter templates.</p>
-
-          <pre><code>npm create vite@latest my-app -- --template react-ts</code></pre>
-
-          <p>This command creates a new React application with TypeScript configured and ready to go. The template includes all the necessary configurations for a modern development workflow.</p>
-
-          <h2>Best Practices</h2>
-          <p>When working with React and TypeScript, following established patterns and best practices is crucial for long-term success.</p>
-        `,
-        excerpt:
-          'Learn how to build modern, scalable web applications using React and TypeScript with best practices and real-world examples.',
-        category: 'Technology',
-        coverImage:
-          'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        author: {
-          _id: '1',
-          name: 'Sarah Johnson',
-          avatar:
-            'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-          bio: 'Senior Frontend Developer with 8+ years of experience in React ecosystem. Passionate about building scalable web applications.',
-        },
-        createdAt: '2024-01-15T10:00:00Z',
-        updatedAt: '2024-01-15T10:00:00Z',
-        readingTime: 8,
-        likes: 156,
-        views: 2341,
-        tags: [
-          'React',
-          'TypeScript',
-          'Frontend',
-          'JavaScript',
-          'Web Development',
-        ],
-      });
-    } catch (error) {
-      console.error('Error fetching post:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const fetchRelatedPosts = async () => {
     // Mock related posts
@@ -110,27 +110,31 @@ const PostDetail = () => {
       {
         _id: '2',
         title: 'Advanced React Patterns and Performance Optimization',
-        excerpt:
-          'Dive deep into advanced React patterns that will make your applications faster and more maintainable.',
+        content: '<p>Learn advanced React patterns for better performance.</p>',
         category: 'Technology',
         coverImage:
           'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-        author: { _id: '2', name: 'Mike Chen' },
+        author: { _id: '2', username: 'Mike Chen', avatar: '', bio: '' },
         createdAt: '2024-01-10T10:00:00Z',
+        updatedAt: '2024-01-10T10:00:00Z',
         readingTime: 6,
-      } as Post,
+        likes: 42,
+        views: 500,
+      },
       {
         _id: '3',
         title: 'State Management in Large React Applications',
-        excerpt:
-          'Explore different state management solutions and when to use each one in your React applications.',
+        content: '<p>Explore state management solutions for React.</p>',
         category: 'Technology',
         coverImage:
           'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-        author: { _id: '3', name: 'Emily Davis' },
+        author: { _id: '3', username: 'Emily Davis', avatar: '', bio: '' },
         createdAt: '2024-01-08T10:00:00Z',
+        updatedAt: '2024-01-08T10:00:00Z',
         readingTime: 10,
-      } as Post,
+        likes: 35,
+        views: 420,
+      },
     ]);
   };
 
@@ -171,7 +175,7 @@ const PostDetail = () => {
   }
 
   return (
-    <div className='pt-24 pb-16 bg-gray-50'>
+    <div className='pt-24 pb-16 bg-gray-50 max-w-6xl mx-auto px-4'>
       {/* Hero Section */}
       <div className='relative h-96 bg-gradient-to-r from-gray-900 to-gray-700 overflow-hidden'>
         <img
@@ -198,7 +202,6 @@ const PostDetail = () => {
             <h1 className='text-4xl md:text-5xl font-bold leading-tight mb-4'>
               {post.title}
             </h1>
-            <p className='text-xl text-gray-200 max-w-3xl'>{post.excerpt}</p>
           </div>
         </div>
       </div>
@@ -210,11 +213,13 @@ const PostDetail = () => {
             <div className='flex items-center gap-4'>
               <img
                 src={post.author.avatar || 'https://via.placeholder.com/60x60'}
-                alt={post.author.name}
+                alt={post.author.username}
                 className='w-15 h-15 rounded-full object-cover'
               />
               <div>
-                <h3 className='font-semibold text-lg'>{post.author.name}</h3>
+                <h3 className='font-semibold text-lg'>
+                  {post.author.username}
+                </h3>
                 <p className='text-gray-600 text-sm mb-1'>
                   Published on {formatDate(post.createdAt)}
                 </p>
@@ -237,7 +242,9 @@ const PostDetail = () => {
                 <i
                   className={`fas fa-heart ${liked ? 'text-red-500' : ''}`}
                 ></i>
-                <span>{post.likes + (liked ? 1 : 0)}</span>
+                <span>
+                  {post?.likes ? post.likes + (liked ? 1 : 0) : post.likes}
+                </span>
               </button>
 
               <button className='flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors'>
@@ -264,22 +271,6 @@ const PostDetail = () => {
               className='prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-[#544cdb] prose-strong:text-gray-900 prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100'
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
-
-            {/* Tags */}
-            <div className='mt-12 pt-8 border-t border-gray-200'>
-              <h4 className='text-lg font-semibold mb-4'>Tags</h4>
-              <div className='flex flex-wrap gap-2'>
-                {post.tags.map((tag, index) => (
-                  <Link
-                    key={index}
-                    to={`/discover?search=${tag}`}
-                    className='bg-gray-100 hover:bg-[#544cdb] hover:text-white px-3 py-1 rounded-full text-sm transition-colors'
-                  >
-                    #{tag}
-                  </Link>
-                ))}
-              </div>
-            </div>
           </div>
         </article>
 
@@ -316,9 +307,6 @@ const PostDetail = () => {
                     <h3 className='text-xl font-semibold mb-2 group-hover:text-[#544cdb] transition-colors'>
                       {relatedPost.title}
                     </h3>
-                    <p className='text-gray-600 text-sm'>
-                      {relatedPost.excerpt}
-                    </p>
                   </div>
                 </Link>
               ))}
