@@ -15,7 +15,7 @@ function NavBar() {
 
   return (
     <div
-      className={` text-white py-4 px-6 flex items-center justify-center gap-16 w-full fixed  shadow-sm z-1 ${
+      className={` text-white py-4 px-6 flex items-center justify-center gap-16 w-full fixed  shadow-sm z-50 ${
         isDarkMode ? 'bg-gray-800' : 'bg-white'
       }`}
     >
