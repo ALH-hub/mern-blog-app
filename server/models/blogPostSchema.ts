@@ -5,6 +5,7 @@ interface IBlogPost extends mongoose.Document {
   title: string;
   content: string;
   author: mongoose.Types.ObjectId;
+  coverImage?: string;
   comments: mongoose.Types.ObjectId[];
   commentCount: number;
   createdAt: Date;
@@ -19,6 +20,10 @@ const BlogPostSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User',
+    },
+    coverImage: {
+      type: String,
+      required: false,
     },
     comments: [
       {

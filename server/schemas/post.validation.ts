@@ -1,6 +1,6 @@
 // Zod schemas for data validation
 
-import { email, z } from 'zod';
+import { z } from 'zod';
 
 // Blog post schemas
 export const blogPostCreateSchema = z.object({
@@ -11,6 +11,7 @@ export const blogPostCreateSchema = z.object({
     .trim(),
 
   content: z.string().min(10, 'Content must be at least 10 characters').trim(),
+  coverImage: z.string().trim().optional(),
 });
 
 export const blogPostUpdateSchema = z.object({
@@ -26,6 +27,8 @@ export const blogPostUpdateSchema = z.object({
     .min(10, 'Content must be at least 10 characters')
     .trim()
     .optional(),
+
+  coverImage: z.string().trim().optional(),
 });
 
 // Type exports for TypeScript

@@ -14,7 +14,7 @@ export const createPost = async (
 ): Promise<void> => {
   try {
     // At this point, req.body is already validated by Zod middleware
-    const { title, content }: BlogPostCreateInput = req.body;
+    const { title, content, coverImage }: BlogPostCreateInput = req.body;
     const userId: string = (req as any).user.userId;
 
     const existingUser = await User.findOne({ _id: userId });
@@ -28,6 +28,7 @@ export const createPost = async (
     const newPost = new BlogPost({
       title,
       content,
+      coverImage,
       author: userId,
     });
 
