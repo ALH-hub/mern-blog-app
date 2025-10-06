@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import Button from '../common/Button';
-import api from '../utils/api';
 import { useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router';
+import type { PostQuery } from '../services/postService';
+import postService from '../services/postService';
 
 interface Post {
   _id: string;
@@ -31,119 +33,69 @@ const categories = [
 ];
 
 const Discover = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document.title = 'NexusBlog - Discover';
-    fetchPosts();
-  }, []);
+  const getQueryFromURL = (): PostQuery => ({
+    page: Number(searchParams.get('page')) || 1,
+    limit: Number(searchParams.get('limit')) || 10,
+    category: searchParams.get('category') || 'All',
+    search: searchParams.get('search') || '',
+    sort:
+      (searchParams.get('sort') as 'newest' | 'oldest' | 'title') || 'newest',
+    author: searchParams.get('author') || '',
+  });
 
-  useEffect(() => {
-    filterPosts();
-  }, [posts, searchTerm, selectedCategory, sortBy]);
+  const currentQuery = getQueryFromURL();
 
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      // Replace with your actual API endpoint
-      const response = await api.get('/posts');
-      console.log(response.data.data);
-      setPosts(response.data.data);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-      // Mock data for development
-      // setPosts([
-      //   {
-      //     _id: '1',
-      //     title: 'Getting Started with React and TypeScript',
-      //     content: 'Full content here...',
-      //     excerpt:
-      //       'Learn how to set up a React project with TypeScript and best practices for type safety.',
-      //     category: 'Technology',
-      //     author: { _id: '1', name: 'John Doe' },
-      //     image:
-      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+  const updateURL = (newQuery: Partial<PostQuery>) => {
+    const updatedQuery = { ...currentQuery, ...newQuery };
 
-      //     createdAt: '2024-01-15T10:00:00Z',
-      //     readingTime: 5,
-      //   },
-      //   {
-      //     _id: '2',
-      //     title: '10 Tips for a Healthy Lifestyle',
-      //     content: 'Full content here...',
-      //     excerpt:
-      //       'Discover practical tips to maintain a healthy lifestyle and improve your well-being.',
-      //     category: 'Health and Wellness',
-      //     author: { _id: '2', name: 'Jane Smith' },
-      //     image:
-      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
-      //     createdAt: '2024-01-16T10:00:00Z',
-      //     readingTime: 4,
-      //   },
-
-      //   {
-      //     _id: '3',
-      //     title: 'Exploring the World: Top Travel Destinations for 2024',
-      //     content: 'Full content here...',
-      //     excerpt:
-      //       'Discover the most exciting travel destinations for 2024 and plan your next adventure.',
-      //     category: 'Travel',
-      //     author: { _id: '3', name: 'Alice Johnson' },
-      //     image:
-      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
-      //     createdAt: '2024-01-17T10:00:00Z',
-      //     readingTime: 6,
-      //   },
-      //   // Add more mock posts...
-      // ]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filterPosts = () => {
-    let filtered = [...posts];
-
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (post) =>
-          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          post.author.username.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-    }
-
-    // Filter by category
-    if (selectedCategory !== 'All') {
-      filtered = filtered.filter((post) => post.category === selectedCategory);
-    }
-
-    // Sort posts
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'oldest':
-          return (
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-          );
-        case 'title':
-          return a.title.localeCompare(b.title);
-        case 'newest':
-        default:
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
+    const params = new URLSearchParams();
+    Object.entries(updatedQuery).forEach(([key, value]) => {
+      if (value && value !== '' && value !== null) {
+        params.set(key, String(value));
       }
     });
-
-    setFilteredPosts(filtered);
+    setSearchParams(params);
   };
+
+  const handleCategoryFilter = (category: string) => {
+    setSelectedCategory(category);
+    updateURL({ category: category === 'All' ? '' : category, page: 1 });
+  };
+
+  const handleSortChange = (sort: 'newest' | 'oldest' | 'title') => {
+    setSortBy(sort);
+    updateURL({ sort, page: 1 });
+  };
+
+  const handlePageChange = (page: number) => {
+    updateURL({ page });
+  };
+
+  useEffect(() => {
+    document.title = 'NexusBlog - Discover';
+
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const response = await postService.searchPosts(currentQuery);
+        setPosts(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [searchParams]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -191,7 +143,8 @@ const Discover = () => {
               {categories.map((category) => (
                 <button
                   key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  value={currentQuery.category || 'All'}
+                  onClick={(e) => handleCategoryFilter(e.currentTarget.value)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     selectedCategory === category
                       ? 'bg-[#544cdb] text-white'
@@ -208,7 +161,11 @@ const Discover = () => {
               <span className='text-sm text-gray-600'>Sort by:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) =>
+                  handleSortChange(
+                    e.target.value as 'newest' | 'oldest' | 'title',
+                  )
+                }
                 className='px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#544cdb] focus:border-transparent outline-none'
               >
                 <option value='newest'>Newest First</option>
@@ -220,7 +177,7 @@ const Discover = () => {
 
           {/* Results Count */}
           <div className='text-gray-600'>
-            {loading ? 'Loading...' : `${filteredPosts.length} articles found`}
+            {loading ? 'Loading...' : `${posts.length} articles found`}
           </div>
         </div>
 
@@ -229,7 +186,7 @@ const Discover = () => {
           <div className='flex justify-center items-center py-20'>
             <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-[#544cdb]'></div>
           </div>
-        ) : filteredPosts.length === 0 ? (
+        ) : posts.length === 0 ? (
           <div className='text-center py-20'>
             <i className='fas fa-search text-6xl text-gray-300 mb-4'></i>
             <h3 className='text-xl font-semibold text-gray-600 mb-2'>
@@ -241,7 +198,7 @@ const Discover = () => {
           </div>
         ) : (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-            {filteredPosts.map((post) => (
+            {posts.map((post) => (
               <article
                 key={post._id}
                 className='hover:shadow-lg rounded-lg bg-white overflow-hidden group cursor-pointer flex flex-col transition-shadow duration-300'
@@ -302,9 +259,15 @@ const Discover = () => {
         )}
 
         {/* Load More Button */}
-        {filteredPosts.length > 0 && (
+        {posts.length > 0 && (
           <div className='text-center mt-12'>
-            <Button variant='outline'>
+            <Button
+              variant='outline'
+              onClick={() =>
+                handlePageChange(currentQuery.page ? currentQuery.page + 1 : 1)
+              }
+              disabled={currentQuery.page ? currentQuery.page <= 1 : true}
+            >
               <i className='fas fa-plus'></i>
               <span>Load More Articles</span>
             </Button>
