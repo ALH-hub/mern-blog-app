@@ -21,6 +21,9 @@ export const blogPostCreateSchema = z.object({
     'Food',
     'Education',
   ]),
+  readingTime: z.number().min(1).optional(),
+  likes: z.number().min(0).optional(),
+  views: z.number().min(0).optional(),
 });
 
 export const blogPostUpdateSchema = z.object({
@@ -48,6 +51,10 @@ export const blogPostUpdateSchema = z.object({
     'Food',
     'Education',
   ]),
+
+  readingTime: z.number().min(1).optional(),
+  likes: z.number().min(0).optional(),
+  views: z.number().min(0).optional(),
 });
 
 // Type exports for TypeScript
