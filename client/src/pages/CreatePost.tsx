@@ -1,9 +1,9 @@
 import { useState, useRef, useMemo, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import Button from '../common/Button.js';
-import { Link } from 'react-router';
 import api from '../utils/api.js';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const CreatePost = () => {
   const editor = useRef(null);
@@ -17,6 +17,11 @@ const CreatePost = () => {
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isDragging, setIsDragging] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'NexusBlog - Create Post';
+  }, []);
 
   const config = useMemo(
     () => ({
@@ -107,30 +112,6 @@ const CreatePost = () => {
     } finally {
       setUploadingImage(false);
     }
-
-    // Uncomment below if you want to use local file upload
-    // const formData = new FormData();
-    // formData.append('file', file);
-    // formData.append('cloud_name', CLOUD_NAME);
-    // UPLOAD_PRESET is used for Cloudinary upload presets
-    // // formData.append('upload_preset', UPLOAD_PRESET);
-    // formData.append('folder', 'your_folder_name'); // Optional: specify a folder in Cloudinary
-    // formData.append('resource_type', 'image'); // Specify resource type as image
-    // formData.append('public_id', `uploads/${file.name}`); // Optional: specify public ID for the image
-
-    // const response = await fetch(CLOUDINARY_URL, {
-    //   method: 'POST',
-    //   body: formData,
-    // });
-
-    // if (!response.ok) {
-    //   throw new Error('Image upload failed');
-    // }
-
-    // const data = await response.json();
-    // const imageUrl = data.secure_url; // Use secure_url for HTTPS
-    // setPost({ ...post, coverImage: imageUrl });
-    // setImagePreview(imageUrl);
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,6 +152,7 @@ const CreatePost = () => {
     api
       .post('/posts', post)
       .then((response) => {
+        navigate('/discover');
         console.log('Post published successfully:', response.data);
       })
       .catch((error) => {
@@ -301,12 +283,10 @@ const CreatePost = () => {
         <div className='text-sm text-gray-600'>
           Once you publish, your post will be live on the platform.
         </div>
-        <Link to='/'>
-          <Button variant='primary' onClick={handlePublish}>
-            <i className='fas fa-paper-plane'></i>
-            <span>Publish Post</span>
-          </Button>
-        </Link>
+        <Button variant='primary' onClick={handlePublish}>
+          <i className='fas fa-paper-plane'></i>
+          <span>Publish Post</span>
+        </Button>
       </div>
     </div>
   );
