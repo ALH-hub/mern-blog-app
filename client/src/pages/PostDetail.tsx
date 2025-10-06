@@ -140,7 +140,9 @@ const PostDetail = () => {
 
   const handleLike = () => {
     setLiked(!liked);
-    // API call to like/unlike post
+    if (post) {
+      post.likes += liked ? -1 : 1;
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -212,7 +214,10 @@ const PostDetail = () => {
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4'>
               <img
-                src={post.author.avatar || 'https://via.placeholder.com/60x60'}
+                src={
+                  post.author.avatar ||
+                  'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png'
+                }
                 alt={post.author.username}
                 className='w-15 h-15 rounded-full object-cover'
               />
@@ -242,9 +247,7 @@ const PostDetail = () => {
                 <i
                   className={`fas fa-heart ${liked ? 'text-red-500' : ''}`}
                 ></i>
-                <span>
-                  {post?.likes ? post.likes + (liked ? 1 : 0) : post.likes}
-                </span>
+                <span>{post.likes}</span>
               </button>
 
               <button className='flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors'>
