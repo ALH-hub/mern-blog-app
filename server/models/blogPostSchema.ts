@@ -1,11 +1,23 @@
 // BlogPost Schema definition
 
 import mongoose from 'mongoose';
+
+enum Category {
+  Technology = 'Technology',
+  Health = 'Health',
+  Lifestyle = 'Lifestyle',
+  Business = 'Business',
+  Travel = 'Travel',
+  Food = 'Food',
+  Education = 'Education',
+}
+
 interface IBlogPost extends mongoose.Document {
   title: string;
   content: string;
   author: mongoose.Types.ObjectId;
   coverImage?: string;
+  category: Category;
   comments: mongoose.Types.ObjectId[];
   commentCount: number;
   createdAt: Date;
@@ -24,6 +36,11 @@ const BlogPostSchema = new mongoose.Schema(
     coverImage: {
       type: String,
       required: false,
+    },
+    category: {
+      type: String,
+      enum: Object.values(Category),
+      required: true,
     },
     comments: [
       {

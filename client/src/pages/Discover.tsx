@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Button from '../common/Button';
+import api from '../utils/api';
 
 interface Post {
   _id: string;
@@ -9,10 +10,10 @@ interface Post {
   category: string;
   author: {
     _id: string;
-    name: string;
+    username: string;
     avatar?: string;
   };
-  image?: string;
+  coverImage?: string;
   createdAt: string;
   readingTime: number;
 }
@@ -49,56 +50,56 @@ const Discover = () => {
     try {
       setLoading(true);
       // Replace with your actual API endpoint
-      const response = await fetch('/api/posts');
-      const data = await response.json();
-      setPosts(data);
+      const response = await api.get('/posts');
+      console.log(response.data.data);
+      setPosts(response.data.data);
     } catch (error) {
       console.error('Error fetching posts:', error);
       // Mock data for development
-      setPosts([
-        {
-          _id: '1',
-          title: 'Getting Started with React and TypeScript',
-          content: 'Full content here...',
-          excerpt:
-            'Learn how to set up a React project with TypeScript and best practices for type safety.',
-          category: 'Technology',
-          author: { _id: '1', name: 'John Doe' },
-          image:
-            'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+      // setPosts([
+      //   {
+      //     _id: '1',
+      //     title: 'Getting Started with React and TypeScript',
+      //     content: 'Full content here...',
+      //     excerpt:
+      //       'Learn how to set up a React project with TypeScript and best practices for type safety.',
+      //     category: 'Technology',
+      //     author: { _id: '1', name: 'John Doe' },
+      //     image:
+      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
 
-          createdAt: '2024-01-15T10:00:00Z',
-          readingTime: 5,
-        },
-        {
-          _id: '2',
-          title: '10 Tips for a Healthy Lifestyle',
-          content: 'Full content here...',
-          excerpt:
-            'Discover practical tips to maintain a healthy lifestyle and improve your well-being.',
-          category: 'Health and Wellness',
-          author: { _id: '2', name: 'Jane Smith' },
-          image:
-            'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
-          createdAt: '2024-01-16T10:00:00Z',
-          readingTime: 4,
-        },
+      //     createdAt: '2024-01-15T10:00:00Z',
+      //     readingTime: 5,
+      //   },
+      //   {
+      //     _id: '2',
+      //     title: '10 Tips for a Healthy Lifestyle',
+      //     content: 'Full content here...',
+      //     excerpt:
+      //       'Discover practical tips to maintain a healthy lifestyle and improve your well-being.',
+      //     category: 'Health and Wellness',
+      //     author: { _id: '2', name: 'Jane Smith' },
+      //     image:
+      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+      //     createdAt: '2024-01-16T10:00:00Z',
+      //     readingTime: 4,
+      //   },
 
-        {
-          _id: '3',
-          title: 'Exploring the World: Top Travel Destinations for 2024',
-          content: 'Full content here...',
-          excerpt:
-            'Discover the most exciting travel destinations for 2024 and plan your next adventure.',
-          category: 'Travel',
-          author: { _id: '3', name: 'Alice Johnson' },
-          image:
-            'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
-          createdAt: '2024-01-17T10:00:00Z',
-          readingTime: 6,
-        },
-        // Add more mock posts...
-      ]);
+      //   {
+      //     _id: '3',
+      //     title: 'Exploring the World: Top Travel Destinations for 2024',
+      //     content: 'Full content here...',
+      //     excerpt:
+      //       'Discover the most exciting travel destinations for 2024 and plan your next adventure.',
+      //     category: 'Travel',
+      //     author: { _id: '3', name: 'Alice Johnson' },
+      //     image:
+      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+      //     createdAt: '2024-01-17T10:00:00Z',
+      //     readingTime: 6,
+      //   },
+      //   // Add more mock posts...
+      // ]);
     } finally {
       setLoading(false);
     }
@@ -113,7 +114,7 @@ const Discover = () => {
         (post) =>
           post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          post.author.name.toLowerCase().includes(searchTerm.toLowerCase()),
+          post.author.username.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -247,7 +248,9 @@ const Discover = () => {
                 {/* Post Image */}
                 <div className='overflow-hidden relative h-48'>
                   <img
-                    src={post.image || 'https://via.placeholder.com/400x200'}
+                    src={
+                      post.coverImage || 'https://via.placeholder.com/400x200'
+                    }
                     alt={post.title}
                     className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out'
                   />
@@ -275,16 +278,16 @@ const Discover = () => {
                 {/* Post Footer */}
                 <div className='flex p-4 justify-between items-center border-t border-gray-100'>
                   <div className='flex items-center gap-3'>
-                    <img
+                    {/* <img
                       src={
                         post.author.avatar ||
                         'https://via.placeholder.com/40x40'
                       }
-                      alt={post.author.name}
+                      alt={post.author.username}
                       className='w-10 h-10 object-cover rounded-full'
-                    />
+                    /> */}
                     <span className='text-gray-700 font-medium'>
-                      {post.author.name}
+                      {post.author.username}
                     </span>
                   </div>
                   <span className='text-sm text-gray-500'>

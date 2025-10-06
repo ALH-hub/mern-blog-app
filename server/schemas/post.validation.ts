@@ -12,6 +12,15 @@ export const blogPostCreateSchema = z.object({
 
   content: z.string().min(10, 'Content must be at least 10 characters').trim(),
   coverImage: z.string().trim().optional(),
+  category: z.enum([
+    'Technology',
+    'Health',
+    'Lifestyle',
+    'Business',
+    'Travel',
+    'Food',
+    'Education',
+  ]),
 });
 
 export const blogPostUpdateSchema = z.object({
@@ -29,6 +38,16 @@ export const blogPostUpdateSchema = z.object({
     .optional(),
 
   coverImage: z.string().trim().optional(),
+
+  category: z.enum([
+    'Technology',
+    'Health',
+    'Lifestyle',
+    'Business',
+    'Travel',
+    'Food',
+    'Education',
+  ]),
 });
 
 // Type exports for TypeScript
