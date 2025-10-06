@@ -3,7 +3,7 @@ import JoditEditor from 'jodit-react';
 import Button from '../common/Button.js';
 import { Link } from 'react-router';
 import api from '../utils/api.js';
-import uploadFileToLocalDirectory from '../utils/local-image-upload.js';
+import axios from 'axios';
 
 const CreatePost = () => {
   const editor = useRef(null);
@@ -68,43 +68,69 @@ const CreatePost = () => {
       alert('Please select an image file');
       return;
     }
-
     if (file.size > 10 * 1024 * 1024) {
-      // 10MB limit
       alert('Image size should be less than 10MB');
       return;
     }
-
     setUploadingImage(true);
+
+    const UPLOAD_PRESET = 'umxptlvz';
+    const CLOUD_NAME = 'dzsv3mhyd';
+    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
     try {
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('file', file);
+      formData.append('upload_preset', UPLOAD_PRESET);
+      formData.append('folder', 'blog_post');
 
-      // // Upload to your server - adjust endpoint as needed
-      // const response = await api.post('/upload/cover-image', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // });
+      const response = await axios.post(CLOUDINARY_URL, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-      const { success, fileName } = await uploadFileToLocalDirectory(file);
-      if (success) {
-        const imageUrl = `/uploads/${fileName}`;
+      if (response.status === 200) {
+        const data = response.data;
+        const imageUrl = data.secure_url;
         setPost({ ...post, coverImage: imageUrl });
+        setImagePreview(imageUrl);
+        console.log('Image uploaded successfully:', imageUrl);
       }
-
-      console.log({ success, fileName, coverImage: post.coverImage });
-      setImagePreview(URL.createObjectURL(file));
     } catch (error) {
       console.error('Error uploading image:', error);
-      // Fallback to local preview for development
+      console.log((error as Error).message);
+      // Fallback to local preview
       const localUrl = URL.createObjectURL(file);
       setImagePreview(localUrl);
       setPost({ ...post, coverImage: localUrl });
     } finally {
       setUploadingImage(false);
     }
+
+    // Uncomment below if you want to use local file upload
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // formData.append('cloud_name', CLOUD_NAME);
+    // UPLOAD_PRESET is used for Cloudinary upload presets
+    // // formData.append('upload_preset', UPLOAD_PRESET);
+    // formData.append('folder', 'your_folder_name'); // Optional: specify a folder in Cloudinary
+    // formData.append('resource_type', 'image'); // Specify resource type as image
+    // formData.append('public_id', `uploads/${file.name}`); // Optional: specify public ID for the image
+
+    // const response = await fetch(CLOUDINARY_URL, {
+    //   method: 'POST',
+    //   body: formData,
+    // });
+
+    // if (!response.ok) {
+    //   throw new Error('Image upload failed');
+    // }
+
+    // const data = await response.json();
+    // const imageUrl = data.secure_url; // Use secure_url for HTTPS
+    // setPost({ ...post, coverImage: imageUrl });
+    // setImagePreview(imageUrl);
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
