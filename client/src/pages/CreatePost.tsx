@@ -259,6 +259,7 @@ const CreatePost = () => {
           Select Category
         </h2>
         <select
+          required
           className='p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
           value={post.category}
           onChange={(e) =>
@@ -268,14 +269,14 @@ const CreatePost = () => {
             })
           }
         >
-          <option value='technology'>Technology</option>
-          <option value='lifestyle'>Lifestyle</option>
-          <option value='travel'>Travel</option>
-          <option value='food'>Food</option>
-          <option value='education'>Education</option>
-          <option value='health'>Health</option>
-          <option value='finance'>Finance</option>
-          <option value='entertainment'>Entertainment</option>
+          <option value='Technology'>Technology</option>
+          <option value='Lifestyle'>Lifestyle</option>
+          <option value='Travel'>Travel</option>
+          <option value='Food'>Food</option>
+          <option value='Education'>Education</option>
+          <option value='Health'>Health</option>
+          <option value='Finance'>Finance</option>
+          <option value='Entertainment'>Entertainment</option>
         </select>
         <h2 className='text-xl sm:text-2xl font-semibold mt-10 mb-4 tracking-tighter'>
           Publish
