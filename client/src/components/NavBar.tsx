@@ -8,10 +8,12 @@ function NavBar() {
   const { isDarkMode, toggleDarkMode } = useThemeStore();
   const { user, isAuthenticated, logout } = useAuthStore();
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     logout();
+    navigate('/');
   };
-  const navigate = useNavigate();
 
   return (
     <div

@@ -86,7 +86,7 @@ function Home() {
               </Button>
             </Link>
           )}
-          <Link to='/explore-content'>
+          <Link to='/discover'>
             <Button variant='outline'>
               <i className='fas fa-compass'></i>
               <span>Explore Content</span>
