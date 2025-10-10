@@ -3,25 +3,7 @@ import { Link, useParams } from 'react-router';
 import Button from '../common/Button';
 import useAuthStore from '../stores/authStore';
 import postService from '../services/postService';
-
-interface Post {
-  _id: string;
-  title: string;
-  content: string;
-  category: string;
-  coverImage: string;
-  author: {
-    _id: string;
-    username: string;
-    avatar?: string;
-    bio?: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-  readingTime: number;
-  likes: number;
-  views: number;
-}
+import type { Post } from '../types';
 
 const PostDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,64 +17,9 @@ const PostDetail = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        // Replace with actual API call
         const response = await postService.getPostById(id!);
         setPost(response.data.data);
         console.log(response.data.data);
-
-        // Mock data for development
-        // setPost({
-        //   _id: '1',
-        //   title: 'Building Modern Web Applications with React and TypeScript',
-        //   content: `
-        //     <p>React and TypeScript have become the gold standard for building modern, scalable web applications. In this comprehensive guide, we'll explore how to leverage these powerful technologies to create robust applications that can grow with your business needs.</p>
-
-        //     <h2>Why React and TypeScript?</h2>
-        //     <p>React's component-based architecture provides excellent code reusability and maintainability, while TypeScript adds static type checking that catches errors during development rather than in production.</p>
-
-        //     <h3>Key Benefits:</h3>
-        //     <ul>
-        //       <li><strong>Type Safety:</strong> Catch errors early in the development process</li>
-        //       <li><strong>Better Developer Experience:</strong> Enhanced IDE support with autocomplete and refactoring</li>
-        //       <li><strong>Scalability:</strong> Large codebases become more manageable</li>
-        //       <li><strong>Team Productivity:</strong> Clear contracts between components</li>
-        //     </ul>
-
-        //     <h2>Getting Started</h2>
-        //     <p>Setting up a new React TypeScript project is straightforward with modern tooling. Tools like Vite and Create React App provide excellent starter templates.</p>
-
-        //     <pre><code>npm create vite@latest my-app -- --template react-ts</code></pre>
-
-        //     <p>This command creates a new React application with TypeScript configured and ready to go. The template includes all the necessary configurations for a modern development workflow.</p>
-
-        //     <h2>Best Practices</h2>
-        //     <p>When working with React and TypeScript, following established patterns and best practices is crucial for long-term success.</p>
-        //   `,
-        //   excerpt:
-        //     'Learn how to build modern, scalable web applications using React and TypeScript with best practices and real-world examples.',
-        //   category: 'Technology',
-        //   coverImage:
-        //     'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        //   author: {
-        //     _id: '1',
-        //     name: 'Sarah Johnson',
-        //     avatar:
-        //       'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-        //     bio: 'Senior Frontend Developer with 8+ years of experience in React ecosystem. Passionate about building scalable web applications.',
-        //   },
-        //   createdAt: '2024-01-15T10:00:00Z',
-        //   updatedAt: '2024-01-15T10:00:00Z',
-        //   readingTime: 8,
-        //   likes: 156,
-        //   views: 2341,
-        //   tags: [
-        //     'React',
-        //     'TypeScript',
-        //     'Frontend',
-        //     'JavaScript',
-        //     'Web Development',
-        //   ],
-        // });
       } catch (error) {
         console.error('Error fetching post:', error);
       } finally {
