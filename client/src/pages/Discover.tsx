@@ -4,22 +4,7 @@ import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router';
 import type { PostQuery } from '../services/postService';
 import postService from '../services/postService';
-
-interface Post {
-  _id: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  category: string;
-  author: {
-    _id: string;
-    username: string;
-    avatar?: string;
-  };
-  coverImage?: string;
-  createdAt: string;
-  readingTime: number;
-}
+import type { Post } from '../types';
 
 const categories = [
   'All',

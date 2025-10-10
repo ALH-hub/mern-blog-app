@@ -1,11 +1,15 @@
 import { Link } from 'react-router';
 import Button from '../common/Button';
 import useAuthStore from '../stores/authStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import type { Post } from '../types';
+import postService from '../services/postService';
 
 function Home() {
   const { isAuthenticated } = useAuthStore();
+  const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
+  const [isLoading, setisLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,6 +17,47 @@ function Home() {
     if (isAuthenticated) {
       navigate('/');
     }
+
+    const fetchFeaturedPosts = async () => {
+      try {
+        setisLoading(true);
+        const response = await postService.getPosts(1, 3);
+        setFeaturedPosts(response.data.data);
+      } catch (error) {
+        console.error('Error fetching featured posts:', error);
+      } finally {
+        setisLoading(false);
+      }
+
+      // const mockPosts: Post[] = [
+      //   {
+      //     _id: '1',
+      //     title: 'The Future of Technology',
+      //     content: 'Full content of the post...',
+      //     excerpt: 'A brief overview of upcoming tech trends.',
+      //     category: 'Technology',
+      //     author: { _id: 'a1', username: 'tech_guru' },
+      //     coverImage:
+      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+      //     createdAt: new Date().toISOString(),
+      //     readingTime: 5,
+      //   },
+      //   {
+      //     _id: '2',
+      //     title: 'Healthy Living Tips',
+      //     content: 'Full content of the post...',
+      //     excerpt: 'Simple tips for a healthier lifestyle.',
+      //     category: 'Health and Wellness',
+      //     author: { _id: 'a2', username: 'health_expert' },
+      //     coverImage:
+      //       'https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk=',
+      //     createdAt: new Date().toISOString(),
+      //     readingTime: 4,
+      //   },
+      // ];
+    };
+
+    fetchFeaturedPosts();
   }, [isAuthenticated, navigate]);
 
   return (
@@ -55,105 +100,70 @@ function Home() {
         </h2>
         <hr className='w-16 border-2 border-[#544cdb]' />
         <div className=' w-full grid grid-cols-1 md:grid-cols-3 gap-8 mt-20'>
-          <div className='hover:shadow-lg rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
-            <div className='overflow-hidden relative h-48'>
-              <img
-                src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                alt=''
-                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
-              />
-            </div>
-            <div className='p-2 flex gap-4'>
-              <span>category here</span>
-              <span>Reading time</span>
-            </div>
-            <div className='p-2 flex flex-col gap-2'>
-              <h3 className='text-xl font-semibold'>
-                Article Title here and its incredibly long
-              </h3>
-              <p className='text-gray-600'>
-                Brief description of the article. Lorem ipsum dolor sit, amet
-                consectetur adipisicing elit. Laudantium, sapiente!
-              </p>
-            </div>
-            <div className='flex p-2 justify-between items-center gap-2'>
-              <div className='flex items-center gap-2 '>
-                <img
-                  src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                  alt=''
-                  className='w-12 h-12 object-cover rounded-full'
-                />
-                <span className='text-gray-600'>Author Name</span>
-              </div>
-              <span>date published</span>
-            </div>
-          </div>
-          <div className='hover:shadow-lg rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
-            <div className='overflow-hidden relative h-48'>
-              <img
-                src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                alt=''
-                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
-              />
-            </div>
-            <div className='p-2 flex gap-4'>
-              <span>category here</span>
-              <span>Reading time</span>
-            </div>
-            <div className='p-2 flex flex-col gap-2'>
-              <h3 className='text-xl font-semibold'>
-                Article Title here and its incredibly long
-              </h3>
-              <p className='text-gray-600'>
-                Brief description of the article. Lorem ipsum dolor sit, amet
-                consectetur adipisicing elit. Laudantium, sapiente!
-              </p>
-            </div>
-            <div className='flex p-2 justify-between items-center gap-2'>
-              <div className='flex items-center gap-2 '>
-                <img
-                  src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                  alt=''
-                  className='w-12 h-12 object-cover rounded-full'
-                />
-                <span className='text-gray-600'>Author Name</span>
-              </div>
-              <span>date published</span>
-            </div>
-          </div>
-          <div className='hover:shadow-lg rounded bg-white overflow-hidden group cursor-pointer flex flex-col gap-2'>
-            <div className='overflow-hidden relative h-48'>
-              <img
-                src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                alt=''
-                className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out '
-              />
-            </div>
-            <div className='p-2 flex gap-4'>
-              <span>category here</span>
-              <span>Reading time</span>
-            </div>
-            <div className='p-2 flex flex-col gap-2'>
-              <h3 className='text-xl font-semibold'>
-                Article Title here and its incredibly long
-              </h3>
-              <p className='text-gray-600'>
-                Brief description of the article. Lorem ipsum dolor sit, amet
-                consectetur adipisicing elit. Laudantium, sapiente!
-              </p>
-            </div>
-            <div className='flex p-2 justify-between items-center gap-2'>
-              <div className='flex items-center gap-2 '>
-                <img
-                  src='https://media.istockphoto.com/id/1316372349/photo/shot-of-a-team-of-young-businesspeople-using-a-laptop-during-a-late-night-meeting-in-a-modern.jpg?s=1024x1024&w=is&k=20&c=vztaIB-e8bsHk6DFUpOWC_IykTIxqzqV77ZokInklGk='
-                  alt=''
-                  className='w-12 h-12 object-cover rounded-full'
-                />
-                <span className='text-gray-600'>Author Name</span>
-              </div>
-              <span>date published</span>
-            </div>
-          </div>
+          {isLoading ? (
+            <p className='text-gray-600'>Loading...</p>
+          ) : (
+            featuredPosts.map((post) => (
+              <article
+                key={post._id}
+                className='hover:shadow-lg rounded bg-white overflow-hidden group cursor-pointer flex flex-col'
+                onClick={() => navigate(`/post/${post._id}`)}
+              >
+                {/* Post Image */}
+                {post.coverImage && (
+                  <div className='overflow-hidden relative h-48'>
+                    <img
+                      src={post.coverImage}
+                      alt={post.title}
+                      className='w-full h-full object-cover rounded-t group-hover:scale-105 transition-transform duration-500 ease-out'
+                    />
+                  </div>
+                )}
+
+                {/* Post Category and Reading Time */}
+                <div className='p-4 flex gap-4 text-sm text-gray-600'>
+                  <span className='bg-[#544cdb] text-white px-2 py-1 rounded text-xs'>
+                    {post.category}
+                  </span>
+                  <span className='flex items-center gap-1'>
+                    <i className='fas fa-clock'></i>
+                    {post.readingTime} min read
+                  </span>
+                </div>
+
+                {/* Post Title and Excerpt */}
+                <div className='p-4 flex flex-col gap-3 flex-grow'>
+                  <h3 className='text-xl font-semibold line-clamp-2 group-hover:text-[#544cdb] transition-colors'>
+                    {post.title}
+                  </h3>
+                  <p className='text-gray-600 line-clamp-3'>{post.excerpt}</p>
+                </div>
+
+                {/* Post Author and Date */}
+                <div className='flex p-4 justify-between items-center border-t border-gray-100'>
+                  <div className='flex items-center gap-3'>
+                    {/* <img
+                    src={
+                      post.author.avatar ||
+                      'https://via.placeholder.com/40x40'
+                    }
+                    alt={post.author.username}
+                    className='w-10 h-10 object-cover rounded-full'
+                  /> */}
+                    <span className='text-gray-700 font-medium'>
+                      {post.author.username}
+                    </span>
+                  </div>
+                  <span className='text-sm text-gray-500'>
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </article>
+            ))
+          )}
+          {isLoading === false && featuredPosts.length === 0 && (
+            <p className='text-gray-600'>No featured posts available.</p>
+          )}
         </div>
       </div>
       <div className=' mt-10 px-2 py-8 flex justify-center flex-col align-items  w-full max-w-6xl'>
