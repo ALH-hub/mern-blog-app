@@ -4,12 +4,16 @@ export interface Post {
   content: string;
   excerpt: string;
   category: string;
+  coverImage?: string;
   author: {
     _id: string;
     username: string;
     avatar?: string;
+    bio?: string;
   };
-  coverImage?: string;
   createdAt: string;
+  updatedAt: string;
   readingTime: number;
+  likes: number;
+  views: number;
 }
