@@ -54,20 +54,20 @@ const Contact = () => {
       title: 'Email Us',
       description: "Send us an email and we'll respond within 24 hours",
       contact: 'hello@nexusblog.com',
-      link: 'mailto:hello@nexusblog.com',
+      link: 'mailto:alhadjioum0@gmail.com',
     },
     {
       icon: 'fas fa-phone',
       title: 'Call Us',
-      description: 'Speak with our team during business hours',
-      contact: '+1 (555) 123-4567',
-      link: 'tel:+15551234567',
+      description: "Give us a call and we'll be happy to assist you",
+      contact: '+237 696 55 52 20',
+      link: 'tel:+237696555220',
     },
     {
       icon: 'fas fa-map-marker-alt',
       title: 'Visit Us',
       description: 'Come say hello at our headquarters',
-      contact: '123 Blog Street, Content City, CC 12345',
+      contact: 'Yaounde City, Cameroon',
       link: 'https://maps.google.com',
     },
     {
@@ -81,24 +81,24 @@ const Contact = () => {
 
   const teamMembers = [
     {
-      name: 'Sarah Johnson',
+      name: 'Alhadji Oumate',
       role: 'Founder & CEO',
       image:
-        'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+        'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png',
       bio: 'Passionate about connecting writers and readers through meaningful content.',
     },
     {
-      name: 'Mike Chen',
+      name: 'Alhadji Oumate',
       role: 'Head of Community',
       image:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+        'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png',
       bio: 'Building vibrant communities where every voice matters and every story counts.',
     },
     {
-      name: 'Emily Davis',
+      name: 'Alhadji Oumate',
       role: 'Content Director',
       image:
-        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
+        'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png',
       bio: 'Curating exceptional content and helping writers reach their full potential.',
     },
   ];
