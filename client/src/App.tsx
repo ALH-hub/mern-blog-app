@@ -2,7 +2,6 @@ import './App.css';
 import Footer from './components/Footer.tsx';
 import NavBar from './components/NavBar.tsx';
 import About from './pages/About.tsx';
-import Categories from './pages/Categories.tsx';
 import Contact from './pages/Contact.tsx';
 import CreatePost from './pages/CreatePost.tsx';
 import Discover from './pages/Discover.tsx';
@@ -56,10 +55,7 @@ const router = createBrowserRouter([
         path: 'about',
         element: <About />,
       },
-      {
-        path: 'categories',
-        element: <Categories />,
-      },
+
       {
         path: 'contact',
         element: <Contact />,

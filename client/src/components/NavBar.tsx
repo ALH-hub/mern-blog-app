@@ -20,7 +20,7 @@ function NavBar() {
       }`}
     >
       <Link to='/' className='flex items-center'>
-        <img src='icon.png' alt='NexusBlog Icon' className='h-12' />
+        <img src='/icon.png' alt='NexusBlog Icon' className='h-12' />
         <h1 className={`text-3xl font-bold text-[#544cdb]`}>NexusBlog</h1>
       </Link>
       <div
@@ -30,7 +30,6 @@ function NavBar() {
       >
         <Link to='/'>Home</Link>
         <Link to='/discover'>Discover</Link>
-        <Link to='/categories'>Categories</Link>
         <Link to='/about'>About</Link>
         <Link to='/contact'>Contact</Link>
       </div>
