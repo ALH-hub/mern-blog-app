@@ -235,7 +235,7 @@ const CreatePost = () => {
             onChange={(e) => setPost({ ...post, title: e.target.value })}
           />
         </div>
-        <div className='mb-6'>
+        <div className='mb-6 text-black'>
           <JoditEditor
             ref={editor}
             value={post.content}
