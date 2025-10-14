@@ -124,7 +124,7 @@ const About = () => {
   return (
     <div className='pt-24 pb-16'>
       {/* Hero Section */}
-      <div className='bg-gradient-to-r from-[#544cdb] via-purple-600 to-pink-600 text-white py-20'>
+      <div className='bg-gradient-to-r from-[#544cdb] via-purple-600 to-purple-600   text-white py-20'>
         <div className='max-w-6xl mx-auto px-4 text-center'>
           <h1 className='text-4xl md:text-6xl font-bold tracking-tighter mb-6'>
             About{' '}
