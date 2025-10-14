@@ -100,7 +100,6 @@ const CreatePost = () => {
         const imageUrl = data.secure_url;
         setPost({ ...post, coverImage: imageUrl });
         setImagePreview(imageUrl);
-        console.log('Image uploaded successfully:', imageUrl);
       }
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -160,13 +159,6 @@ const CreatePost = () => {
       });
     console.log('Publishing post:', post);
   };
-
-  useEffect(() => {
-    // This will log the content whenever it changes
-    console.log('Editor content:', post.content);
-    console.log('Title:', post.title);
-    console.log('Category:', post.category);
-  }, [post.content, post.title, post.category]);
 
   return (
     <div className='pt-32 mx-auto max-w-6xl px-2 sm:px-6 flex flex-col lg:flex-row gap-4 z-0 justify-center pb-10'>
