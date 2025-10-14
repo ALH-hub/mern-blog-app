@@ -19,7 +19,8 @@ const PostDetail = () => {
         setLoading(true);
         const response = await postService.getPostById(id!);
         setPost(response.data.data);
-        console.log(response.data.data);
+        fetchRelatedPosts(response.data.data.category, response.data.data._id);
+        document.title = `${response.data.data.title} - NexusBlog`;
       } catch (error) {
         console.error('Error fetching post:', error);
       } finally {
@@ -28,41 +29,20 @@ const PostDetail = () => {
     };
 
     fetchPost();
-    fetchRelatedPosts();
   }, [id]);
 
-  const fetchRelatedPosts = async () => {
-    // Mock related posts
-    setRelatedPosts([
-      {
-        _id: '2',
-        title: 'Advanced React Patterns and Performance Optimization',
-        content: '<p>Learn advanced React patterns for better performance.</p>',
-        category: 'Technology',
-        coverImage:
-          'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-        author: { _id: '2', username: 'Mike Chen', avatar: '', bio: '' },
-        createdAt: '2024-01-10T10:00:00Z',
-        updatedAt: '2024-01-10T10:00:00Z',
-        readingTime: 6,
-        likes: 42,
-        views: 500,
-      },
-      {
-        _id: '3',
-        title: 'State Management in Large React Applications',
-        content: '<p>Explore state management solutions for React.</p>',
-        category: 'Technology',
-        coverImage:
-          'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-        author: { _id: '3', username: 'Emily Davis', avatar: '', bio: '' },
-        createdAt: '2024-01-08T10:00:00Z',
-        updatedAt: '2024-01-08T10:00:00Z',
-        readingTime: 10,
-        likes: 35,
-        views: 420,
-      },
-    ]);
+  const fetchRelatedPosts = async (category: string, excludeId: string) => {
+    try {
+      const response = await postService.searchPosts({
+        category: category,
+        limit: 4,
+      });
+      setRelatedPosts(
+        response.data.data.filter((p: Post) => p._id !== excludeId),
+      );
+    } catch (error) {
+      console.error('Error fetching related posts:', error);
+    }
   };
 
   const handleLike = () => {

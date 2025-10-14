@@ -14,6 +14,7 @@ export interface PostQuery {
   search?: string;
   sort?: 'newest' | 'oldest' | 'title';
   author?: string;
+  others?: Record<string, unknown>;
 }
 
 const postService = {

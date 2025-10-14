@@ -83,9 +83,7 @@ export const getAllPosts = async (
   try {
     // Fetch all the posts
     const queries: any = {};
-    const { category, search, sort, author } = req.query;
-
-    console.log(req.query);
+    const { category, search, sort, author, others } = req.query;
 
     if (category && category !== 'All') {
       queries.category = category;
@@ -106,6 +104,9 @@ export const getAllPosts = async (
       sortOption = { createdAt: 1 };
     } else if (sort === 'title') {
       sortOption = { title: 1 };
+    }
+
+    if (others) {
     }
 
     const page = parseInt(req.query.page as string) || 1;
