@@ -175,7 +175,7 @@ const PostDetail = () => {
         </div>
 
         {/* Post Content */}
-        <article className='bg-white rounded-lg shadow-lg overflow-hidden'>
+        <article className='bg-white rounded-lg shadow-lg overflow-hidden text-black'>
           <div className='p-8 md:p-12'>
             <div
               className='prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-[#544cdb] prose-strong:text-gray-900 prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100'
